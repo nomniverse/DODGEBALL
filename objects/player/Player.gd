@@ -103,6 +103,7 @@ func _physics_process(delta):
 		
 		can_shoot = false
 		throwTimer.start()
+		print("Cannot Shoot")
  
 func flip():
 	facing_right = !facing_right
@@ -138,3 +139,4 @@ func _ready():
 
 func _on_ThrowTimer_timeout():
 	can_shoot = true
+	print("Can Shoot")

@@ -1,13 +1,13 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scenes/tiles.tres" type="TileSet" id=1]
 [ext_resource path="res://objects/player/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://objects/ball/Ball.tscn" type="PackedScene" id=3]
+[ext_resource path="res://objects/Portal/Portal.tscn" type="PackedScene" id=4]
 
 [node name="World" type="Node2D"]
 
 [node name="Camera2D" type="Camera2D" parent="."]
-scale = Vector2( 1, 1 )
 anchor_mode = 0
 current = true
 zoom = Vector2( 2.8, 2.98 )
@@ -21,7 +21,7 @@ tile_data = PoolIntArray( 0, 1, 0, 1, 1, 0, 2, 1, 0, 3, 1, 0, 4, 1, 0, 5, 1, 0, 
 position = Vector2( 156.631, 204.27 )
 
 [node name="Player2" parent="." instance=ExtResource( 2 )]
-position = Vector2( 2733.3, 1589.42 )
+position = Vector2( 2741.29, 1621.38 )
 player_id = 2
 
 [node name="Ball" parent="." instance=ExtResource( 3 )]
@@ -41,3 +41,19 @@ position = Vector2( 756.041, 1324.93 )
 
 [node name="Ball6" parent="." instance=ExtResource( 3 )]
 position = Vector2( 2273.76, 1350.17 )
+
+[node name="Portal Pair" type="Node" parent="."]
+
+[node name="Portal1" parent="Portal Pair" instance=ExtResource( 4 )]
+position = Vector2( 192.767, 1308.98 )
+
+[node name="Portal2" parent="Portal Pair" instance=ExtResource( 4 )]
+position = Vector2( 2778.22, 1230.86 )
+
+[node name="Portal Pair2" type="Node" parent="."]
+
+[node name="Portal1" parent="Portal Pair2" instance=ExtResource( 4 )]
+position = Vector2( 1383.13, 1688.46 )
+
+[node name="Portal2" parent="Portal Pair2" instance=ExtResource( 4 )]
+position = Vector2( 1132.48, 727.55 )
