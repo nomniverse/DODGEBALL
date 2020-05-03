@@ -1,4 +1,11 @@
+class_name Player
+
 extends KinematicBody2D
+
+enum State {
+	ALIVE,
+	DEAD
+}
 
 # == Constants ==
 const MOVE_SPEED     = 500
@@ -6,17 +13,26 @@ const JUMP_FORCE     = 1000
 const GRAVITY        = 50
 const MAX_FALL_SPEED = 1000
 
+const BALL_VELOCITY  = 500
+
 export var player_id : int = 0
 
 # == Node References ==
 onready var anim_player = $AnimationPlayer
 onready var sprite = $Sprite
+onready var throwTimer = $ThrowTimer
+onready var ballPosition = $BallPosition2D
 
 # == Member Variables ==
 var y_velo = 0
 var facing_right = false
 var is_jumping = false
 var is_attacking = false
+
+var can_shoot = true
+
+# == Preloading other scenes
+const BALL = preload("res://objects/ball/Ball.tscn")
 
 func _physics_process(delta):
 	var move_dir = 0
@@ -61,26 +77,41 @@ func _physics_process(delta):
 		flip()
 
 	if grounded:
-		if is_attacking:
-			play_anim("attack")
-			is_attacking = false
+		if move_dir == 0:
+			play_anim("idle")
 		else:
-			if move_dir == 0:
-				play_anim("idle")
-			else:
-				play_anim("walk")
+			play_anim("walk")
 	else:
 		play_anim("jump")
+		
+	if is_attacking and can_shoot:
+		var ball = BALL.instance()
+		
+		ball.global_position = ballPosition.global_position
+		
+		if facing_right:
+			ball.linear_velocity = Vector2(BALL_VELOCITY, 0)
+		else:
+			ball.linear_velocity = Vector2(-BALL_VELOCITY, 0)
+		
+		get_parent().add_child(ball)
+		
+		can_shoot = false
+		throwTimer.start()
  
 func flip():
 	facing_right = !facing_right
 	sprite.scale.x = -sprite.scale.x
+	ballPosition.position.x = -ballPosition.position.x
  
 func play_anim(anim_name):
 	if anim_player.is_playing() and anim_player.current_animation == anim_name:
 		return
 	
 	anim_player.play(anim_name)
+
+func destroy():
+	print("Tagged!")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -90,10 +121,5 @@ func _ready():
 #func _process(delta):
 #	pass
 
-
-func _on_TagHit_body_entered(body):
-	if not body.get_name() == self.get_name():
-		if body.get_name().begins_with("Player"):
-			print("Tag! You're whatever we do with this...")
-	
-		
+func _on_ThrowTimer_timeout():
+	can_shoot = true
