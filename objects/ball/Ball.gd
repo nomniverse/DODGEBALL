@@ -8,7 +8,7 @@ enum Ownership {
 	PLAYER_2 = 2
 }
 
-const DEAD_BALL_COUNT = 1
+const DEAD_BALL_COUNT = 2
 
 var ownership = Ownership.UNOWNED
 
@@ -28,10 +28,12 @@ func set_ownership(ownership):
 func _on_Ball_body_entered(body):
 	if body.get_name().begins_with("Player"):
 		if ownership == Ownership.UNOWNED:
-			body.pick_up_ball()
-			self.queue_free()
+			if body.pick_up_ball():
+				self.queue_free()
+			else:
+				pass
 		elif ownership != body.get_player_id() and bounce_count < DEAD_BALL_COUNT:
-			print("Tag!")
+			print("Tag! Point for Player %d" % ownership)
 			get_tree().reload_current_scene()
 			self.queue_free()
 	else:
