@@ -9,11 +9,12 @@ enum State {
 
 # == Constants ==
 const MOVE_SPEED     = 500
-const JUMP_FORCE     = 1000
+const JUMP_FORCE     = 1250
 const GRAVITY        = 50
-const MAX_FALL_SPEED = 1000
+const MAX_FALL_SPEED = 1250
 
-const BALL_VELOCITY  = 500
+const BALL_VELOCITY  = 1000
+const MAX_BALLS      = 2
 
 export var player_id : int = 1
 
@@ -112,7 +113,11 @@ func get_player_id():
 	return player_id
 	
 func pick_up_ball():
-	ball_count += 1
+	if ball_count + 1 <= MAX_BALLS:
+		ball_count += 1
+		return true
+	else:
+		return false
  
 func play_anim(anim_name):
 	if anim_player.is_playing() and anim_player.current_animation == anim_name:
