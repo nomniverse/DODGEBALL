@@ -8,7 +8,7 @@ extents = Vector2( 10, 24 )
 
 [sub_resource type="CircleShape2D" id=2]
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=3]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:region_rect")
 tracks/0/interp = 1
@@ -22,7 +22,7 @@ tracks/0/keys = {
 "values": [ Rect2( 0, 64, 64, 64 ) ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=4]
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:region_rect")
@@ -37,7 +37,7 @@ tracks/0/keys = {
 "values": [ Rect2( 64, 64, 64, 64 ) ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=5]
 length = 0.4
 loop = true
 tracks/0/type = "value"
@@ -70,9 +70,9 @@ region_enabled = true
 region_rect = Rect2( 0, 64, 64, 64 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/idle = SubResource( 8 )
-anims/jump = SubResource( 6 )
-anims/walk = SubResource( 7 )
+anims/idle = SubResource( 3 )
+anims/jump = SubResource( 4 )
+anims/walk = SubResource( 5 )
 
 [node name="Player" type="Node2D" parent="."]
 
