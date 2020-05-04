@@ -25,7 +25,7 @@ onready var throwTimer = $ThrowTimer
 onready var ballPosition = $BallPosition2D
 
 # == Member Variables ==
-var y_velo = 0
+var velocity = Vector2()
 var facing_right = false
 var is_jumping = false
 var is_attacking = false
@@ -60,18 +60,20 @@ func _physics_process(delta):
 	else:
 		pass
 		
-	move_and_slide(Vector2(move_dir * MOVE_SPEED, y_velo), Vector2(0, -1))
+	velocity.x = move_dir * MOVE_SPEED
+		
+	move_and_slide(velocity, Vector2(0, -1))
    
 	var grounded = is_on_floor()
 	
-	y_velo += GRAVITY
+	velocity.y += GRAVITY
 	
 	if grounded and is_jumping:
-		y_velo = -JUMP_FORCE
-	if grounded and y_velo >= 5:
-		y_velo = 5
-	if y_velo > MAX_FALL_SPEED:
-		y_velo = MAX_FALL_SPEED
+		velocity.y = -JUMP_FORCE
+	if grounded and velocity.y >= 5:
+		velocity.y = 5
+	if velocity.y > MAX_FALL_SPEED:
+		velocity.y = MAX_FALL_SPEED
    
 	if facing_right and move_dir < 0:
 		flip()
@@ -93,9 +95,9 @@ func _physics_process(delta):
 		ball.set_ownership(player_id)
 		
 		if facing_right:
-			ball.linear_velocity = Vector2(BALL_VELOCITY, 0)
+			ball.set_velocity(Vector2(BALL_VELOCITY, 0))
 		else:
-			ball.linear_velocity = Vector2(-BALL_VELOCITY, 0)
+			ball.set_velocity(Vector2(-BALL_VELOCITY, 0))
 		
 		get_parent().add_child(ball)
 		
@@ -119,6 +121,9 @@ func pick_up_ball():
 		return true
 	else:
 		return false
+		
+func get_velocity():
+	return velocity
  
 func play_anim(anim_name):
 	if anim_player.is_playing() and anim_player.current_animation == anim_name:
