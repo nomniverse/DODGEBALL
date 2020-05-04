@@ -3,7 +3,7 @@
 [ext_resource path="res://scenes/tiles.tres" type="TileSet" id=1]
 [ext_resource path="res://objects/player/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://objects/ball/Ball.tscn" type="PackedScene" id=3]
-[ext_resource path="res://objects/Portal/Portal.tscn" type="PackedScene" id=4]
+[ext_resource path="res://objects/portal/Portal.tscn" type="PackedScene" id=4]
 
 [node name="World" type="Node2D"]
 
@@ -25,22 +25,22 @@ position = Vector2( 2741.29, 1621.38 )
 player_id = 2
 
 [node name="Ball" parent="." instance=ExtResource( 3 )]
-position = Vector2( 494, 322 )
+position = Vector2( 604.166, 301.279 )
 
 [node name="Ball2" parent="." instance=ExtResource( 3 )]
-position = Vector2( 1952.91, 257.841 )
+position = Vector2( 1986.29, 258.481 )
 
 [node name="Ball3" parent="." instance=ExtResource( 3 )]
-position = Vector2( 2133.17, 813.017 )
+position = Vector2( 1925.87, 827.444 )
 
 [node name="Ball4" parent="." instance=ExtResource( 3 )]
-position = Vector2( 701.966, 737.312 )
+position = Vector2( 445.327, 870.242 )
 
 [node name="Ball5" parent="." instance=ExtResource( 3 )]
-position = Vector2( 756.041, 1324.93 )
+position = Vector2( 841.551, 1406.48 )
 
 [node name="Ball6" parent="." instance=ExtResource( 3 )]
-position = Vector2( 2273.76, 1350.17 )
+position = Vector2( 1993.31, 1419.49 )
 
 [node name="Portal Pair" type="Node" parent="."]
 
