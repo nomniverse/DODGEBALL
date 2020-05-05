@@ -3,7 +3,7 @@
 [ext_resource path="res://assets/art/platform.png" type="Texture" id=1]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 32, 32 )
+extents = Vector2( 16, 16 )
 
 [node name="Tiles" type="Node2D"]
 
@@ -11,22 +11,20 @@ extents = Vector2( 32, 32 )
 position = Vector2( -1.05263, 0 )
 texture = ExtResource( 1 )
 region_enabled = true
-region_rect = Rect2( 0, 0, 64, 64 )
+region_rect = Rect2( 0, 0, 32, 32 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Sprite"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite/StaticBody2D"]
-visible = false
 shape = SubResource( 1 )
 
 [node name="Sprite2" type="Sprite" parent="."]
 position = Vector2( 111.435, 0.278675 )
 texture = ExtResource( 1 )
 region_enabled = true
-region_rect = Rect2( 0, 64, 64, 64 )
+region_rect = Rect2( 0, 64, 32, 32 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Sprite2"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2/StaticBody2D"]
-visible = false
 shape = SubResource( 1 )
