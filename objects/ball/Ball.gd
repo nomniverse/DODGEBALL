@@ -49,8 +49,7 @@ func _physics_process(delta):
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
-
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
@@ -71,5 +70,8 @@ func _on_Hitbox_body_entered(body):
 				pass
 		elif ownership != body.get_player_id() and bounce_count < DEAD_BALL_COUNT:
 			print("Tag! Point for Player %d" % ownership)
-			get_tree().reload_current_scene()
+			#get_tree().reload_current_scene()
+			
+			body.tag()
+			
 			self.queue_free()

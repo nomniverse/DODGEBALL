@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-class_name Player
+class_name PlayerMulti
 
 enum State {
 	ALIVE,
@@ -35,39 +35,55 @@ var ball_count = 0
 
 var original_position
 
+# == Slave Variables ==
+slave var slave_velocity = Vector2()
+slave var slave_move_dir = 0
+
+slave var slave_facing_right = false
+slave var slave_is_jumping = false
+slave var slave_is_attacking = false
+
 # == Preloading other scenes
 const BALL = preload("res://objects/ball/Ball.tscn")
 
 func _physics_process(delta):
 	var move_dir = 0
 	
-	if player_id == 1:
+	if is_network_master():
 		if Input.is_action_pressed("player_one_move_right"):
 			move_dir += 1
 		if Input.is_action_pressed("player_one_move_left"):
 			move_dir -= 1
 		
 		is_jumping = Input.is_action_just_pressed("player_one_jump")
-		
 		is_attacking = Input.is_action_pressed("player_one_tag")
-	elif player_id == 2:
-		if Input.is_action_pressed("player_two_move_right"):
-			move_dir += 1
-		if Input.is_action_pressed("player_two_move_left"):
-			move_dir -= 1
 		
-		is_jumping = Input.is_action_just_pressed("player_two_jump")
+		rset_unreliable("slave_velocity", velocity)
+		rset("slave_move_dir", move_dir)
 		
-		is_attacking = Input.is_action_pressed("player_two_tag")
+		rset("slave_facing_right", facing_right)
+		rset("slave_is_jumping", is_jumping)
+		rset("slave_is_attacking", is_attacking)
+		
+		_move_horizontal(move_dir)
+		_move_vertical(is_on_floor(), move_dir, is_jumping)
+		_attack(is_attacking)
+		
+		if (facing_right and move_dir < 0) or (!facing_right and move_dir > 0):
+			flip()
 	else:
-		pass
+		_move_horizontal(slave_move_dir)
+		_move_vertical(is_on_floor(), slave_move_dir, slave_is_jumping)
+		_attack(slave_is_attacking)
 		
+		if (slave_facing_right and slave_move_dir < 0) or (!slave_facing_right and slave_move_dir > 0):
+			flip()
+
+func _move_horizontal(move_dir):
 	velocity.x = move_dir * MOVE_SPEED
-		
 	move_and_slide(velocity, Vector2(0, -1))
-   
-	var grounded = is_on_floor()
 	
+func _move_vertical(grounded, move_dir, is_jumping):
 	velocity.y += GRAVITY
 	
 	if grounded and is_jumping:
@@ -77,11 +93,6 @@ func _physics_process(delta):
 	if velocity.y > MAX_FALL_SPEED:
 		velocity.y = MAX_FALL_SPEED
    
-	if facing_right and move_dir < 0:
-		flip()
-	if !facing_right and move_dir > 0:
-		flip()
-
 	if grounded:
 		if move_dir == 0:
 			play_anim("idle")
@@ -90,6 +101,7 @@ func _physics_process(delta):
 	else:
 		play_anim("jump")
 		
+func _attack(is_attacking):
 	if is_attacking and can_shoot and ball_count > 0:
 		var ball = BALL.instance()
 		
@@ -107,7 +119,7 @@ func _physics_process(delta):
 		
 		can_shoot = false
 		throwTimer.start()
- 
+
 func flip():
 	facing_right = !facing_right
 	sprite.scale.x = -sprite.scale.x
@@ -131,6 +143,9 @@ func play_anim(anim_name):
 		return
 	
 	anim_player.play(anim_name)
+
+func destroy():
+	print("Tagged!")
 	
 func reset():
 	global_position = original_position
@@ -146,7 +161,7 @@ func _ready():
 	original_position = global_position
 	
 func tag():
-	get_tree().reload_current_scene()
+	get_parent().rpc("reset_map")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
