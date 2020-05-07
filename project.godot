@@ -39,7 +39,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Hackital-2020"
-run/main_scene="res://scenes/Lobby.tscn"
+run/main_scene="res://scenes/Local Level.tscn"
 config/icon="res://icon.png"
 
 [display]

@@ -63,8 +63,6 @@ func _physics_process(delta):
 		pass
 		
 	velocity.x = move_dir * MOVE_SPEED
-		
-	move_and_slide(velocity, Vector2(0, -1))
    
 	var grounded = is_on_floor()
 	
@@ -76,11 +74,11 @@ func _physics_process(delta):
 		velocity.y = 5
 	if velocity.y > MAX_FALL_SPEED:
 		velocity.y = MAX_FALL_SPEED
+		
+	move_and_slide(velocity, Vector2(0, -1))
    
-	if facing_right and move_dir < 0:
-		flip()
-	if !facing_right and move_dir > 0:
-		flip()
+	if (facing_right and move_dir < 0) or (!facing_right and move_dir > 0):
+			flip()
 
 	if grounded:
 		if move_dir == 0:
