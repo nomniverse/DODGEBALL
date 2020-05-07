@@ -17,17 +17,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Title" type="Label" parent="."]
-margin_left = 210.0
-margin_top = 40.0
-margin_right = 430.0
-margin_bottom = 80.0
-size_flags_horizontal = 2
-size_flags_vertical = 0
-text = "Multiplayer Pong"
-align = 1
-valign = 1
-
 [node name="LobbyPanel" type="Panel" parent="."]
 margin_left = -161.797
 margin_top = -33.85

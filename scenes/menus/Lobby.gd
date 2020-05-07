@@ -8,7 +8,7 @@ onready var join_button = $JoinButton
 onready var status_ok = $StatusOk
 onready var status_fail = $StatusFail
 
-const LEVEL = preload("res://scenes/multiplayer-level.tscn")
+const LEVEL = preload("res://scenes/Online Level.tscn")
 
 func _ready():
 	# Connect all the callbacks related to networking.
