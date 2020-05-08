@@ -81,4 +81,14 @@ one_shot = true
 
 [node name="BallPosition2D" type="Position2D" parent="."]
 position = Vector2( -32.35, 0 )
+
+[node name="PlayerUsername" type="RichTextLabel" parent="."]
+margin_left = -25.8682
+margin_top = -53.7519
+margin_right = 26.1318
+margin_bottom = -35.7519
+text = "Player 1"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="timeout" from="ThrowTimer" to="." method="_on_ThrowTimer_timeout"]

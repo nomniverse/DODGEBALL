@@ -17,12 +17,14 @@ const BALL_VELOCITY  = 1000
 const MAX_BALLS      = 2
 
 export var player_id : int = 1
+export var player_name : String = "Player 1"
 
 # == Node References ==
 onready var anim_player = $AnimationPlayer
 onready var sprite = $Sprite
 onready var throwTimer = $ThrowTimer
 onready var ballPosition = $BallPosition2D
+onready var playerUsername = $PlayerUsername
 
 # == Member Variables ==
 var velocity = Vector2()
@@ -151,6 +153,8 @@ func play_anim(anim_name):
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	original_position = global_position
+	
+	playerUsername.text = player_name
 	
 func tag():
 	get_parent().rpc("reset_map")
