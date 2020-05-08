@@ -55,6 +55,8 @@ func _physics_process(delta):
 		if Input.is_action_pressed("player_one_move_left"):
 			move_dir -= 1
 		
+		rset("slave_move_dir", move_dir)
+		
 		is_jumping = Input.is_action_just_pressed("player_one_jump")
 		is_attacking = Input.is_action_pressed("player_one_tag")
 		
@@ -73,11 +75,7 @@ func _physics_process(delta):
 			
 		move_and_slide(velocity, Vector2(0, -1))
 		
-		if (facing_right and move_dir < 0) or (!facing_right and move_dir > 0):
-			flip()
-		
 		rset_unreliable("slave_velocity", velocity)
-		rset("slave_move_dir", move_dir)
 		
 		rset("slave_facing_right", facing_right)
 		rset("slave_is_jumping", is_jumping)
@@ -85,14 +83,19 @@ func _physics_process(delta):
 		
 		_attack(is_attacking)
 		
-		
+		if (facing_right and move_dir < 0) or (!facing_right and move_dir > 0):
+			facing_right = !facing_right
+			sprite.scale.x = -sprite.scale.x
+			ballPosition.position.x *= -1
 	else:
 		move_and_slide(slave_velocity, Vector2(0, -1))
 		
 		_attack(slave_is_attacking)
 		
 		if (slave_facing_right and slave_move_dir < 0) or (!slave_facing_right and slave_move_dir > 0):
-			flip()
+			slave_facing_right = !slave_facing_right
+			sprite.scale.x = -sprite.scale.x
+			ballPosition.position.x *= -1
 			
 	if is_on_floor():
 		if move_dir == 0:
