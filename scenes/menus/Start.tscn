@@ -1,0 +1,95 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://scenes/menus/Start.gd" type="Script" id=1]
+
+[node name="Start Menu" type="Control"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -320.0
+margin_top = -200.0
+margin_right = 320.0
+margin_bottom = 200.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StartPanel" type="Panel" parent="."]
+margin_left = -161.797
+margin_top = -33.85
+margin_right = 58.2027
+margin_bottom = 76.15
+rect_scale = Vector2( 5, 5 )
+size_flags_horizontal = 2
+size_flags_vertical = 2
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AddressLabel" type="Label" parent="StartPanel"]
+margin_left = 32.0
+margin_top = 5.5
+margin_right = 112.0
+margin_bottom = 19.5
+rect_scale = Vector2( 2, 2 )
+size_flags_horizontal = 2
+size_flags_vertical = 0
+text = "DODGEBALL"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OnlineButton" type="Button" parent="StartPanel"]
+margin_left = 10.0
+margin_top = 60.0
+margin_right = 102.0
+margin_bottom = 80.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+text = "Online Play"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LocalButton" type="Button" parent="StartPanel"]
+margin_left = 130.0
+margin_top = 60.0
+margin_right = 210.0
+margin_bottom = 80.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+text = "Local Play"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StatusOk" type="Label" parent="StartPanel"]
+margin_left = 10.0
+margin_top = 90.0
+margin_right = 210.0
+margin_bottom = 104.0
+size_flags_horizontal = 2
+size_flags_vertical = 0
+custom_colors/font_color = Color( 0, 1, 0.015625, 1 )
+align = 1
+
+[node name="StatusFail" type="Label" parent="StartPanel"]
+margin_left = 10.0
+margin_top = 90.0
+margin_right = 210.0
+margin_bottom = 104.0
+size_flags_horizontal = 2
+size_flags_vertical = 0
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="StartPanel/OnlineButton" to="StartPanel" method="_on_online_pressed"]
+[connection signal="pressed" from="StartPanel/LocalButton" to="StartPanel" method="_on_local_pressed"]
