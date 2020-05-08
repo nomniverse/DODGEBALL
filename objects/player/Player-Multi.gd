@@ -76,7 +76,7 @@ func _physics_process(delta):
 		if (facing_right and move_dir < 0) or (!facing_right and move_dir > 0):
 			flip()
 		
-		rset_unreliable("slave_velocity", velocity)
+		rset("slave_velocity", velocity)
 		rset("slave_move_dir", move_dir)
 		
 		rset("slave_facing_right", facing_right)
