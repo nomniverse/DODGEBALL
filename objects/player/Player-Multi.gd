@@ -75,9 +75,6 @@ func _physics_process(delta):
 			
 		move_and_slide(velocity, Vector2(0, -1))
 		
-		if (facing_right and move_dir < 0) or (!facing_right and move_dir > 0):
-			flip()
-		
 		rset("slave_velocity", velocity)
 		
 		rset("slave_facing_right", facing_right)
