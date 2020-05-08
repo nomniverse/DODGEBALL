@@ -91,5 +91,15 @@ align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Author" type="RichTextLabel" parent="."]
+margin_left = -158.905
+margin_top = 490.66
+margin_right = 328.095
+margin_bottom = 511.66
+text = "By Hotchmoney, omn0mn0m, PsiberPiRat, shields2314, thatguyvt, Vanacan"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="pressed" from="StartPanel/OnlineButton" to="StartPanel" method="_on_online_pressed"]
 [connection signal="pressed" from="StartPanel/LocalButton" to="StartPanel" method="_on_local_pressed"]

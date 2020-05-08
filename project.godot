@@ -38,7 +38,8 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Hackital-2020"
+config/name="DODGEBALL"
+config/description="A WIP multiplayer Dodgeball game for Hackital 2020. Controls: WASD + Space. Arrows + CTRL"
 run/main_scene="res://scenes/menus/Start.tscn"
 config/icon="res://icon.png"
 
