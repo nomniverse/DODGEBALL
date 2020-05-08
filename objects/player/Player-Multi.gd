@@ -75,7 +75,7 @@ func _physics_process(delta):
 			
 		move_and_slide(velocity, Vector2(0, -1))
 		
-		rset("slave_velocity", velocity)
+		rset_unreliable("slave_velocity", velocity)
 		
 		rset("slave_facing_right", facing_right)
 		rset("slave_is_jumping", is_jumping)
