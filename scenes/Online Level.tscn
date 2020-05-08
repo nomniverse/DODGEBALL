@@ -69,3 +69,4 @@ position = Vector2( 1181.96, 456.812 )
 [node name="Player2" parent="." instance=ExtResource( 3 )]
 position = Vector2( 750.768, 455.156 )
 player_id = 2
+player_name = "Player 2"
