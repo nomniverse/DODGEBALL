@@ -2,14 +2,10 @@ extends Area2D
 
 class_name Portal
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+onready var teleportTimer = $TeleportTimer
 
 var portal_sibling
-var can_teleport = true
-
-onready var teleportTimer = $TeleportTimer
+var teleportable = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -17,25 +13,22 @@ func _ready():
 		if child.get_name() != get_name():
 			portal_sibling = child
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
 
-func can_teleport():
-	return can_teleport
+func is_teleportable():
+	return teleportable
 
 func disable_teleport():
-	can_teleport = false
+	teleportable = false
 	teleportTimer.start()
 
 func _on_Portal_body_entered(body):
-	if portal_sibling.can_teleport():
-		print("Destination: %s" % portal_sibling.get_name())
-		
+	if portal_sibling.is_teleportable():
 		disable_teleport()
 		
 		body.global_position = portal_sibling.global_position
 		
 func _on_TeleportTimer_timeout():
-	can_teleport = true
+	teleportable = true

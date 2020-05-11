@@ -38,7 +38,7 @@ var original_position
 # == Preloading other scenes
 const BALL = preload("res://objects/ball/Ball.tscn")
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	var move_dir = 0
 	
 	if player_id == 1:
@@ -62,17 +62,15 @@ func _physics_process(delta):
 	else:
 		pass
 		
-	velocity.x = move_dir * MOVE_SPEED
-   
+	velocity = Vector2(move_dir * MOVE_SPEED, velocity.y + GRAVITY)
+	
 	var on_floor = is_on_floor()
 	var on_ceiling = is_on_ceiling()
-	
-	velocity.y += GRAVITY
 	
 	if on_floor:
 		if is_jumping:
 			velocity.y = -JUMP_FORCE
-		
+	
 		if velocity.y >= 5:
 			velocity.y = 5
 	
@@ -81,11 +79,18 @@ func _physics_process(delta):
 	
 	if velocity.y > MAX_FALL_SPEED:
 		velocity.y = MAX_FALL_SPEED
-		
-	move_and_slide(velocity, Vector2(0, -1))
+	
+	var _linear_velocity = move_and_slide(velocity, Vector2(0, -1))
+	
+	if ball_count == MAX_BALLS:
+		for i in get_slide_count():
+			var collision = get_slide_collision(i)
+			
+			if collision.collider is Ball:
+				collision.collider.set_velocity(collision.collider.get_velocity() + velocity)
 	
 	if (facing_right and move_dir < 0) or (!facing_right and move_dir > 0):
-			flip()
+		flip()
 	
 	if on_floor:
 		if move_dir == 0:
@@ -136,22 +141,13 @@ func play_anim(anim_name):
 		return
 	
 	anim_player.play(anim_name)
-	
-func reset():
-	global_position = original_position
-	var facing_right = false
-	var is_jumping = false
-	var is_attacking = false
-	
-	var can_shoot = true
-	var ball_count = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	original_position = global_position
 	
 func tag():
-	get_tree().reload_current_scene()
+	var _error = get_tree().reload_current_scene()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
