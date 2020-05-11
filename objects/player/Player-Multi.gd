@@ -37,13 +37,13 @@ var ball_count = 0
 
 var original_position
 
-# == Slave Variables ==
-slave var slave_velocity = Vector2()
-slave var slave_move_dir = 0
+# == Puppet Variables ==
+puppet var puppet_velocity = Vector2()
+puppet var puppet_move_dir = 0
 
-slave var slave_facing_right = false
-slave var slave_is_jumping = false
-slave var slave_is_attacking = false
+puppet var puppet_facing_right = false
+puppet var puppet_is_jumping = false
+puppet var puppet_is_attacking = false
 
 # == Preloading other scenes
 const BALL = preload("res://objects/ball/Ball.tscn")
@@ -57,7 +57,7 @@ func _physics_process(delta):
 		if Input.is_action_pressed("player_one_move_left"):
 			move_dir -= 1
 		
-		rset("slave_move_dir", move_dir)
+		rset("puppet_move_dir", move_dir)
 		
 		is_jumping = Input.is_action_just_pressed("player_one_jump")
 		is_attacking = Input.is_action_pressed("player_one_tag")
@@ -77,11 +77,11 @@ func _physics_process(delta):
 			
 		move_and_slide(velocity, Vector2(0, -1))
 		
-		rset_unreliable("slave_velocity", velocity)
+		rset_unreliable("puppet_velocity", velocity)
 		
-		rset("slave_facing_right", facing_right)
-		rset("slave_is_jumping", is_jumping)
-		rset("slave_is_attacking", is_attacking)
+		rset("puppet_facing_right", facing_right)
+		rset("puppet_is_jumping", is_jumping)
+		rset("puppet_is_attacking", is_attacking)
 		
 		_attack(is_attacking)
 		
@@ -90,12 +90,12 @@ func _physics_process(delta):
 			sprite.scale.x = -sprite.scale.x
 			ballPosition.position.x *= -1
 	else:
-		move_and_slide(slave_velocity, Vector2(0, -1))
+		move_and_slide(puppet_velocity, Vector2(0, -1))
 		
-		_attack(slave_is_attacking)
+		_attack(puppet_is_attacking)
 		
-		if (slave_facing_right and slave_move_dir < 0) or (!slave_facing_right and slave_move_dir > 0):
-			slave_facing_right = !slave_facing_right
+		if (puppet_facing_right and puppet_move_dir < 0) or (!puppet_facing_right and puppet_move_dir > 0):
+			puppet_facing_right = !puppet_facing_right
 			sprite.scale.x = -sprite.scale.x
 			ballPosition.position.x *= -1
 			
