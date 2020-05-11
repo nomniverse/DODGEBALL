@@ -64,23 +64,30 @@ func _physics_process(delta):
 		
 	velocity.x = move_dir * MOVE_SPEED
    
-	var grounded = is_on_floor()
+	var on_floor = is_on_floor()
+	var on_ceiling = is_on_ceiling()
 	
 	velocity.y += GRAVITY
 	
-	if grounded and is_jumping:
-		velocity.y = -JUMP_FORCE
-	if grounded and velocity.y >= 5:
-		velocity.y = 5
+	if on_floor:
+		if is_jumping:
+			velocity.y = -JUMP_FORCE
+		
+		if velocity.y >= 5:
+			velocity.y = 5
+	
+	if on_ceiling:
+		velocity.y = 1
+	
 	if velocity.y > MAX_FALL_SPEED:
 		velocity.y = MAX_FALL_SPEED
 		
 	move_and_slide(velocity, Vector2(0, -1))
-   
+	
 	if (facing_right and move_dir < 0) or (!facing_right and move_dir > 0):
 			flip()
-
-	if grounded:
+	
+	if on_floor:
 		if move_dir == 0:
 			play_anim("idle")
 		else:
