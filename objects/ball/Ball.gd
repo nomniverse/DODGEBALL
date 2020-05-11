@@ -16,7 +16,6 @@ const MAX_BOUNCES = 4
 const DAMPENING      = 0.75
 
 # == Member Variables ==
-var y_velo = 0
 var ownership = Ownership.UNOWNED
 var bounce_count = 0
 
@@ -34,8 +33,13 @@ func _physics_process(delta):
 	
 	if collision:
 		
-		if collision.collider.has_method("get_velocity"):
+		if collision.collider.get_name().begins_with("Player"):
 			velocity = velocity.bounce(collision.normal) + collision.collider.get_velocity()
+		elif collision.collider.get_name().begins_with("Ball"):
+			var old_velocity = velocity
+			
+			velocity = velocity.bounce(collision.normal) + collision.collider.get_velocity()
+			collision.collider.set_velocity(collision.collider.get_velocity() + old_velocity)
 		else:
 			velocity = velocity.bounce(collision.normal)
 			
@@ -55,11 +59,14 @@ func _ready():
 #func _process(delta):
 #	pass
 
-func set_velocity(velocity):
-	self.velocity = velocity
+func set_velocity(new_velocity):
+	self.velocity = new_velocity
+	
+func get_velocity():
+	return velocity
 
-func set_ownership(ownership):
-	self.ownership = ownership
+func set_ownership(new_ownership):
+	self.ownership = new_ownership
 
 func _on_Hitbox_body_entered(body):
 	if body.get_name().begins_with("Player"):
