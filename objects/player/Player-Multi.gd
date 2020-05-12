@@ -41,9 +41,7 @@ var original_position
 puppet var puppet_velocity = Vector2()
 puppet var puppet_move_dir = 0
 
-puppet var puppet_facing_right = false
 puppet var puppet_is_jumping = false
-puppet var puppet_is_attacking = false
 
 # == Preloading other scenes
 const BALL = preload("res://objects/ball/Ball.tscn")
@@ -79,36 +77,26 @@ func _physics_process(delta):
 		
 		rset_unreliable("puppet_velocity", velocity)
 		
-		rset("puppet_facing_right", facing_right)
 		rset("puppet_is_jumping", is_jumping)
-		rset("puppet_is_attacking", is_attacking)
 		
 		if is_attacking and can_shoot and ball_count > 0:
 			rpc("_attack")
-			ball_count -= 1
 	
 			can_shoot = false
 			throwTimer.start()
 		
 		if (facing_right and move_dir < 0) or (!facing_right and move_dir > 0):
-			facing_right = !facing_right
-			sprite.scale.x = -sprite.scale.x
-			ballPosition.position.x *= -1
+			rpc("_flip")
+			
+		if is_on_floor():
+			if move_dir == 0:
+				rpc("_play_anim", "idle")
+			else:
+				rpc("_play_anim", "walk")
+		else:
+			rpc("_play_anim", "jump")
 	else:
 		move_and_slide(puppet_velocity, Vector2(0, -1))
-		
-		if (puppet_facing_right and puppet_move_dir < 0) or (!puppet_facing_right and puppet_move_dir > 0):
-			puppet_facing_right = !puppet_facing_right
-			sprite.scale.x = -sprite.scale.x
-			ballPosition.position.x *= -1
-			
-	if is_on_floor():
-		if move_dir == 0:
-			play_anim("idle")
-		else:
-			play_anim("walk")
-	else:
-		play_anim("jump")
 
 sync func _attack():
 	var ball = BALL.instance()
@@ -123,7 +111,9 @@ sync func _attack():
 	
 	get_parent().add_child(ball)
 	
-func flip():
+	ball_count -= 1
+	
+sync func _flip():
 	facing_right = !facing_right
 	sprite.scale.x = -sprite.scale.x
 	ballPosition.position.x *= -1
@@ -141,7 +131,7 @@ func pick_up_ball():
 func get_velocity():
 	return velocity
  
-func play_anim(anim_name):
+sync func _play_anim(anim_name):
 	if anim_player.is_playing() and anim_player.current_animation == anim_name:
 		return
 	
