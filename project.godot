@@ -15,16 +15,11 @@ _global_script_classes=[ {
 "path": "res://objects/ball/Ball.gd"
 }, {
 "base": "KinematicBody2D",
-"class": "BasePlayer",
-"language": "GDScript",
-"path": "res://objects/player/BasePlayer.gd"
-}, {
-"base": "BasePlayer",
 "class": "Player",
 "language": "GDScript",
 "path": "res://objects/player/Player.gd"
 }, {
-"base": "BasePlayer",
+"base": "KinematicBody2D",
 "class": "PlayerMulti",
 "language": "GDScript",
 "path": "res://objects/player/Player-Multi.gd"
@@ -36,7 +31,6 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "Ball": "",
-"BasePlayer": "",
 "Player": "",
 "PlayerMulti": "",
 "Portal": ""

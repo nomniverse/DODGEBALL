@@ -1,9 +1,42 @@
-extends BasePlayer
+extends KinematicBody2D
 
 class_name Player
 
-# == Export Variables ==
+enum State {
+	ALIVE,
+	DEAD
+}
+
+# == Constants ==
+const MOVE_SPEED     = 500
+const JUMP_FORCE     = 1250
+const GRAVITY        = 50
+const MAX_FALL_SPEED = 1250
+
+const BALL_VELOCITY  = 1000
+const MAX_BALLS      = 2
+
 export var player_id : int = 1
+
+# == Node References ==
+onready var anim_player = $AnimationPlayer
+onready var sprite = $Sprite
+onready var throwTimer = $ThrowTimer
+onready var ballPosition = $BallPosition2D
+
+# == Member Variables ==
+var velocity = Vector2()
+var facing_right = false
+var is_jumping = false
+var is_attacking = false
+
+var can_shoot = true
+var ball_count = 0
+
+var original_position
+
+# == Preloading other scenes
+const BALL = preload("res://objects/ball/Ball.tscn")
 
 func _physics_process(_delta):
 	var move_dir = 0
@@ -57,29 +90,57 @@ func _physics_process(_delta):
 				collision.collider.set_velocity(collision.collider.get_velocity() + velocity)
 	
 	if (facing_right and move_dir < 0) or (!facing_right and move_dir > 0):
-		_flip()
+		flip()
 	
 	if on_floor:
 		if move_dir == 0:
-			_play_anim("idle")
+			play_anim("idle")
 		else:
-			_play_anim("walk")
+			play_anim("walk")
 	else:
-		_play_anim("jump")
+		play_anim("jump")
 		
 	if is_attacking and can_shoot and ball_count > 0:
-		_attack(player_id)
+		var ball = BALL.instance()
+		
+		ball.global_position = ballPosition.global_position
+		ball.set_ownership(player_id)
+		
+		if facing_right:
+			ball.set_velocity(Vector2(BALL_VELOCITY, 0))
+		else:
+			ball.set_velocity(Vector2(-BALL_VELOCITY, 0))
+		
+		get_parent().add_child(ball)
+		
 		ball_count -= 1
 		
 		can_shoot = false
 		throwTimer.start()
-
+ 
+func flip():
+	facing_right = !facing_right
+	sprite.scale.x = -sprite.scale.x
+	ballPosition.position.x *= -1
+	
+func get_player_id():
+	return player_id
+	
 func pick_up_ball():
 	if ball_count + 1 <= MAX_BALLS:
 		ball_count += 1
 		return true
 	else:
 		return false
+		
+func get_velocity():
+	return velocity
+ 
+func play_anim(anim_name):
+	if anim_player.is_playing() and anim_player.current_animation == anim_name:
+		return
+	
+	anim_player.play(anim_name)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -87,9 +148,6 @@ func _ready():
 	
 func tag():
 	var _error = get_tree().reload_current_scene()
-	
-func get_player_id():
-	return player_id
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
