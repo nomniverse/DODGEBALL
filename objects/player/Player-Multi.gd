@@ -75,6 +75,8 @@ func _physics_process(delta):
 	else:
 		move_and_slide(puppet_velocity, Vector2(0, -1))
 		
+		ball_count = puppet_ball_count
+		
 		if puppet_ball_count == MAX_BALLS:
 			for i in get_slide_count():
 				var collision = get_slide_collision(i)
@@ -85,7 +87,10 @@ func _physics_process(delta):
 func pick_up_ball():
 	if ball_count + 1 <= MAX_BALLS:
 		ball_count += 1
-		rset("puppet_ball_count", ball_count)
+		
+		if is_network_master():
+			rset("puppet_ball_count", ball_count)
+			
 		return true
 	else:
 		return false
