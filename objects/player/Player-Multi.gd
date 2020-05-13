@@ -99,7 +99,7 @@ func _physics_process(delta):
 			for i in get_slide_count():
 				var collision = get_slide_collision(i)
 				
-				if collision.collider is Ball:
+				if collision.collider is BallMulti:
 					collision.collider.set_velocity(collision.collider.get_velocity() + velocity)
 			
 		if player_id == 1:
