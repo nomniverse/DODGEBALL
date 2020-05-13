@@ -49,7 +49,6 @@ position = Vector2( 770.239, 476.64 )
 [node name="Player2" parent="." instance=ExtResource( 3 )]
 position = Vector2( 1198.65, 480.816 )
 player_id = 2
-player_name = "Player 2"
 
 [node name="Ball" parent="." instance=ExtResource( 1 )]
 position = Vector2( 1136, 198.903 )

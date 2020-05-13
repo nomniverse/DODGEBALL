@@ -10,7 +10,8 @@ enum AnimationState {
 
 # == Export Variables ==
 export var player_id : int = 1
-export var player_name : String = "Player 1"
+
+var player_name = "Player"
 
 # == Node References ==
 onready var playerUsername = $PlayerUsername
@@ -42,7 +43,8 @@ func _ready():
 	ball_scene = preload("res://objects/ball/Ball-Multi.tscn")
 	
 	_last_position = position
-	playerUsername.text = player_name
+	
+#	set_player_name("Player")
 
 func _physics_process(delta):
 	var move_dir = 0
@@ -175,16 +177,19 @@ func _physics_process(delta):
 				if collision.collider is Ball:
 					collision.collider.set_velocity(collision.collider.get_velocity() + puppet_velocity)
 
-func pick_up_ball():
-	if ball_count + 1 <= MAX_BALLS:
-		ball_count += 1
-		
-		if is_network_master():
-			rset("puppet_ball_count", ball_count)
-			
-		return true
-	else:
-		return false
+sync func set_player_name(new_player_name):
+	player_name = new_player_name
+	playerUsername.text = player_name
+
+func can_pick_up_ball():
+	return ball_count + 1 <= MAX_BALLS
+	
+func get_ball_count():
+	return ball_count
+	
+func set_ball_count(new_ball_count):
+	ball_count = new_ball_count
+	rset("puppet_ball_count", ball_count)
 	
 func tag():
 	get_parent().rpc("reset_map")

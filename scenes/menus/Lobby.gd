@@ -3,6 +3,7 @@ extends Control
 const DEFAULT_PORT = 8910 # An arbitrary number.
 
 onready var address = $Address
+onready var username = $Username
 onready var host_button = $HostButton
 onready var join_button = $JoinButton
 onready var status_ok = $StatusOk
@@ -23,14 +24,9 @@ func _ready():
 # Callback from SceneTree.
 func _player_connected(_id):
 	# Someone connected, start the game!
-	var level = LEVEL.instance()
-	# Connect deferred so we can safely erase it from the callback.
-	level.connect("game_finished", self, "_end_game", [], CONNECT_DEFERRED)
-	level.connect("game_reset", self, "_reset_game", [], CONNECT_DEFERRED)
+	_load_level()
 	
-	get_tree().get_root().add_child(level)
 	hide()
-
 
 func _player_disconnected(_id):
 	if get_tree().is_network_server():
@@ -75,12 +71,7 @@ func _reset_game(with_error = ""):
 	if has_node("/root/World"):
 		get_node("/root/World").free()
 		
-		var level = LEVEL.instance()
-		# Connect deferred so we can safely erase it from the callback.
-		level.connect("game_finished", self, "_end_game", [], CONNECT_DEFERRED)
-		level.connect("game_reset", self, "_reset_game", [], CONNECT_DEFERRED)
-	
-		get_tree().get_root().add_child(level)
+	_load_level()
 
 func _set_status(text, isok):
 	# Simple way to show status.
@@ -119,3 +110,14 @@ func _on_join_pressed():
 	get_tree().set_network_peer(host)
 	
 	_set_status("Connecting...", true)
+
+
+func _load_level():
+	var level = LEVEL.instance()
+	# Connect deferred so we can safely erase it from the callback.
+	level.connect("game_finished", self, "_end_game", [], CONNECT_DEFERRED)
+	level.connect("game_reset", self, "_reset_game", [], CONNECT_DEFERRED)
+	
+	level.set_self_player_name(username.text)
+
+	get_tree().get_root().add_child(level)

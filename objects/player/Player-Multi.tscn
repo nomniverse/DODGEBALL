@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://assets/art/character.png" type="Texture" id=1]
 [ext_resource path="res://objects/player/Player-Multi.gd" type="Script" id=2]
+[ext_resource path="res://assets/fonts/playername_font.tres" type="DynamicFont" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 10, 24 )
@@ -82,12 +83,14 @@ one_shot = true
 [node name="BallPosition2D" type="Position2D" parent="."]
 position = Vector2( -32.35, 0 )
 
-[node name="PlayerUsername" type="RichTextLabel" parent="."]
-margin_left = -25.8682
-margin_top = -53.7519
-margin_right = 26.1318
-margin_bottom = -35.7519
+[node name="PlayerUsername" type="Label" parent="."]
+margin_left = -62.2945
+margin_top = -74.8508
+margin_right = 62.7055
+margin_bottom = -45.8508
+custom_fonts/font = ExtResource( 3 )
 text = "Player 1"
+align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
