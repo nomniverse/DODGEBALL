@@ -20,16 +20,13 @@ var is_attacking = false
 var can_shoot = true
 var ball_count = 0
 
-var original_position
-
 # Node References
 onready var anim_player = $AnimationPlayer
 onready var sprite = $Sprite
 onready var throwTimer = $ThrowTimer
 onready var ballPosition = $BallPosition2D
 
-# == Preloading other scenes
-const BALL = preload("res://objects/ball/Ball.tscn")
+var ball_scene = preload("res://objects/ball/Ball.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -41,7 +38,7 @@ sync func _flip():
 	ballPosition.position.x *= -1
 
 sync func _attack(ball_player_id):
-	var ball = BALL.instance()
+	var ball = ball_scene.instance()
 	
 	ball.global_position = ballPosition.global_position
 	ball.set_ownership(ball_player_id)

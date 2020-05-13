@@ -83,7 +83,7 @@ func pick_up_ball():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	original_position = global_position
+	pass
 	
 func tag():
 	var _error = get_tree().reload_current_scene()

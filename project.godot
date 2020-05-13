@@ -14,6 +14,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://objects/ball/Ball.gd"
 }, {
+"base": "BaseBall",
+"class": "BallMulti",
+"language": "GDScript",
+"path": "res://objects/ball/Ball-Multi.gd"
+}, {
+"base": "KinematicBody2D",
+"class": "BaseBall",
+"language": "GDScript",
+"path": "res://objects/ball/BaseBall.gd"
+}, {
 "base": "KinematicBody2D",
 "class": "BasePlayer",
 "language": "GDScript",
@@ -36,6 +46,8 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "Ball": "",
+"BallMulti": "",
+"BaseBall": "",
 "BasePlayer": "",
 "Player": "",
 "PlayerMulti": "",

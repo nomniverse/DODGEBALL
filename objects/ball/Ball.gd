@@ -1,25 +1,6 @@
-extends KinematicBody2D
+extends BaseBall
 
 class_name Ball
-
-enum Ownership {
-	UNOWNED  = 0,
-	PLAYER_1 = 1,
-	PLAYER_2 = 2
-}
-
-# == Constants ==
-const GRAVITY        = 500
-const MAX_FALL_SPEED = 1250
-const DEAD_BALL_COUNT = 2
-const MAX_BOUNCES = 4
-const DAMPENING      = 0.75
-
-# == Member Variables ==
-var ownership = Ownership.UNOWNED
-var bounce_count = 0
-
-var velocity = Vector2()
 
 func _physics_process(delta):
 
@@ -45,6 +26,12 @@ func _physics_process(delta):
 			
 		velocity *= Vector2(DAMPENING, DAMPENING)
 		
+		if abs(velocity.y) < MIN_VELOCITY:
+			velocity.y = 0
+				
+		if abs(velocity.x) < MIN_VELOCITY:
+			velocity.x = 0
+		
 		bounce_count += 1
 		
 		if bounce_count >= DEAD_BALL_COUNT:
@@ -58,15 +45,6 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
-
-func set_velocity(new_velocity):
-	self.velocity = new_velocity
-	
-func get_velocity():
-	return velocity
-
-func set_ownership(new_ownership):
-	self.ownership = new_ownership
 
 func _on_Hitbox_body_entered(body):
 	if body.get_name().begins_with("Player"):
