@@ -11,11 +11,6 @@ enum AnimationState {
 # == Export Variables ==
 export var player_id : int = 1
 
-var player_name = "Player"
-
-# == Node References ==
-onready var playerUsername = $PlayerUsername
-
 # Variables
 var _last_velocity = Vector2()
 var _last_position = Vector2()
@@ -27,6 +22,7 @@ var _animation_state = AnimationState.IDLE
 var _last_move_dir = 0
 var _last_is_attacking = false
 var _last_is_jumping = false
+var _last_using_ability = false
 
 # == Puppet Variables ==
 puppet var puppet_velocity = Vector2()
@@ -37,6 +33,7 @@ puppet var puppet_animation_state = AnimationState.IDLE
 master var master_move_dir = 0
 master var master_is_attacking = false
 master var master_is_jumping = false
+master var master_using_ability = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -56,6 +53,7 @@ func _physics_process(delta):
 	
 	is_jumping = Input.is_action_just_pressed("player_one_jump")
 	is_attacking = Input.is_action_pressed("player_one_tag")
+	using_ability = Input.is_action_just_pressed("player_one_ability")
 	
 	if is_network_master():
 		if player_id == 1:
@@ -112,6 +110,12 @@ func _physics_process(delta):
 		
 				can_shoot = false
 				throwTimer.start()
+				
+			if using_ability and ability_ready:
+				rpc("use_ability")
+				ability_ready = false
+				can_shoot = false
+				abilityDuration.start()
 			
 			if (facing_right and move_dir < 0) or (!facing_right and move_dir > 0):
 				rpc("_flip")
@@ -131,6 +135,12 @@ func _physics_process(delta):
 		
 				can_shoot = false
 				throwTimer.start()
+				
+			if master_using_ability and ability_ready:
+				rpc("use_ability")
+				ability_ready = false
+				can_shoot = false
+				abilityDuration.start()
 			
 			if (facing_right and master_move_dir < 0) or (!facing_right and master_move_dir > 0):
 				rpc("_flip")
@@ -165,6 +175,10 @@ func _physics_process(delta):
 		if _last_is_jumping != is_jumping:
 			rset("master_is_jumping", is_jumping)
 			_last_is_jumping = is_jumping
+			
+		if _last_using_ability != using_ability:
+			rset("master_using_ability", using_ability)
+			_last_using_ability = using_ability
 
 		position = puppet_position
 		
@@ -180,6 +194,12 @@ func _physics_process(delta):
 sync func set_player_name(new_player_name):
 	player_name = new_player_name
 	playerUsername.text = player_name
+	
+sync func use_ability():
+	call(ability, player_id)
+	
+sync func end_ability():
+	call(ability, player_id)
 
 func can_pick_up_ball():
 	return ball_count + 1 <= MAX_BALLS
@@ -203,3 +223,11 @@ func get_player_id():
 
 func _on_ThrowTimer_timeout():
 	can_shoot = true
+
+func _on_AbilityDuration_timeout():
+	rpc("end_ability")
+	can_shoot = true
+	abilityCooldown.start()
+
+func _on_AbilityCooldown_timeout():
+	ability_ready = true
