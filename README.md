@@ -1,5 +1,9 @@
-# Hackital-2020
-Project for Hackital 2020 game jam
+# DODGEBALL
+[![Itch.io](https://img.shields.io/badge/itch.io-DODGEBALL-red)](https://omn0mn0m.itch.io/dodgeball)
+
+A multiplayer dodgeball game with portals and powers.
+
+Originally a project for Hackital 2020 game jam.
 
 ## Project Structure
 ### Top-Level
