@@ -20,11 +20,15 @@ var is_attacking = false
 var can_shoot = true
 var ball_count = 0
 
+var turning_invisible = false
+var ability_ready = true
 # Node References
 onready var anim_player = $AnimationPlayer
 onready var sprite = $Sprite
 onready var throwTimer = $ThrowTimer
 onready var ballPosition = $BallPosition2D
+onready var abilityDuration = $AbilityDuration
+onready var abilityCooldown = $AbilityCooldown
 
 var ball_scene = preload("res://objects/ball/Ball.tscn")
 
@@ -59,6 +63,9 @@ sync func _play_anim(anim_name):
 func get_velocity():
 	return velocity
 
+func invisible():
+	sprite.visible = !sprite.visible
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass

@@ -81,4 +81,13 @@ one_shot = true
 
 [node name="BallPosition2D" type="Position2D" parent="."]
 position = Vector2( -32.35, 0 )
+
+[node name="AbilityDuration" type="Timer" parent="."]
+one_shot = true
+
+[node name="AbilityCooldown" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
 [connection signal="timeout" from="ThrowTimer" to="." method="_on_ThrowTimer_timeout"]
+[connection signal="timeout" from="AbilityDuration" to="." method="_on_AbilityDuration_timeout"]
+[connection signal="timeout" from="AbilityCooldown" to="." method="_on_AbilityCooldown_timeout"]
