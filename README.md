@@ -20,8 +20,8 @@ Project for Hackital 2020 game jam
 ```bash
 .
 ├── assets                # Asset files (art, fonts, music, etc)
-|   ├── art               # Art files (spritesheets, tile maps, etc)
-|   └── fonts             # Font files (for menus, etc)
+│   ├── art               # Art files (spritesheets, tile maps, etc)
+│   └── fonts             # Font files (for menus, etc)
 └── ...
 ```
 
@@ -30,8 +30,8 @@ Project for Hackital 2020 game jam
 .
 ├── ...
 ├── objects               # Game object scenes and their associated scripts
-|   ├── ball              # Ball scenes (.tscn) and code (.gd)
-|   └── player            # Player scenes (.tscn) and code (.gd)
-|   └── portal            # Portal scenes (.tscn) and code (.gd)
+│   ├── ball              # Ball scenes (.tscn) and code (.gd)
+│   ├── player            # Player scenes (.tscn) and code (.gd)
+│   └── portal            # Portal scenes (.tscn) and code (.gd)
 └── ...
 ```
