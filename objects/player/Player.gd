@@ -18,7 +18,7 @@ func _physics_process(_delta):
 		
 		is_attacking = Input.is_action_pressed("player_one_tag")
 		
-		turning_invisible = Input.is_action_just_pressed("player_one_invisible")
+		using_ability = Input.is_action_just_pressed("player_one_ability")
 	elif player_id == 2:
 		if Input.is_action_pressed("player_two_move_right"):
 			move_dir += 1
@@ -28,6 +28,8 @@ func _physics_process(_delta):
 		is_jumping = Input.is_action_just_pressed("player_two_jump")
 		
 		is_attacking = Input.is_action_pressed("player_two_tag")
+		
+		using_ability = Input.is_action_just_pressed("player_two_ability")
 	else:
 		pass
 		
@@ -76,12 +78,11 @@ func _physics_process(_delta):
 		can_shoot = false
 		throwTimer.start()
 		
-	if turning_invisible and ability_ready:
-		invisible()
+	if using_ability and ability_ready:
+		call(ability)
 		ability_ready = false
 		can_shoot = false
 		abilityDuration.start()
-		print("Debug Print ")
 		
 func pick_up_ball():
 	if ball_count + 1 <= MAX_BALLS:
@@ -92,7 +93,7 @@ func pick_up_ball():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	set_player_name("Player %d" % player_id)
 	
 func tag():
 	var _error = get_tree().reload_current_scene()
@@ -107,14 +108,10 @@ func get_player_id():
 func _on_ThrowTimer_timeout():
 	can_shoot = true
 
-
-
 func _on_AbilityDuration_timeout():
-	invisible()
+	call(ability)
 	can_shoot = true
 	abilityCooldown.start()
-	print("Debug Timer")
-
 
 func _on_AbilityCooldown_timeout():
 	ability_ready = true
