@@ -74,24 +74,28 @@ func get_velocity():
 	return velocity
 
 func invisible(player_id):
-	if get_tree().is_network_server():
-		if player_id == 1:
-			if sprite.modulate == Color(1, 1, 1):
-				sprite.modulate = Color(0, 0, 1)
-			else:
-				sprite.modulate = Color(1, 1, 1)
-		elif player_id == 2:
-			sprite.visible = !sprite.visible
-			playerUsername.visible = !playerUsername.visible
+	if not GameVariables.local_play:
+		if get_tree().is_network_server():
+			if player_id == 1:
+				if sprite.modulate == Color(1, 1, 1):
+					sprite.modulate = Color(0, 0, 1)
+				else:
+					sprite.modulate = Color(1, 1, 1)
+			elif player_id == 2:
+				sprite.visible = !sprite.visible
+				playerUsername.visible = !playerUsername.visible
+		else:
+			if player_id == 1:
+				sprite.visible = !sprite.visible
+				playerUsername.visible = !playerUsername.visible
+			elif player_id == 2:
+				if sprite.modulate == Color(1, 1, 1):
+					sprite.modulate = Color(0, 0, 1)
+				else:
+					sprite.modulate = Color(1, 1, 1)
 	else:
-		if player_id == 1:
-			sprite.visible = !sprite.visible
-			playerUsername.visible = !playerUsername.visible
-		elif player_id == 2:
-			if sprite.modulate == Color(1, 1, 1):
-				sprite.modulate = Color(0, 0, 1)
-			else:
-				sprite.modulate = Color(1, 1, 1)
+		sprite.visible = !sprite.visible
+		playerUsername.visible = !playerUsername.visible
 			
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.

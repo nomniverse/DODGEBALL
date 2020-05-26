@@ -14,11 +14,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://objects/ball/Ball.gd"
 }, {
-"base": "BaseBall",
-"class": "BallMulti",
-"language": "GDScript",
-"path": "res://objects/ball/Ball-Multi.gd"
-}, {
 "base": "KinematicBody2D",
 "class": "BaseBall",
 "language": "GDScript",
@@ -34,11 +29,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://objects/player/Player.gd"
 }, {
-"base": "BasePlayer",
-"class": "PlayerMulti",
-"language": "GDScript",
-"path": "res://objects/player/Player-Multi.gd"
-}, {
 "base": "Area2D",
 "class": "Portal",
 "language": "GDScript",
@@ -46,11 +36,9 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "Ball": "",
-"BallMulti": "",
 "BaseBall": "",
 "BasePlayer": "",
 "Player": "",
-"PlayerMulti": "",
 "Portal": ""
 }
 
@@ -60,6 +48,10 @@ config/name="DODGEBALL"
 config/description="A WIP multiplayer Dodgeball game for Hackital 2020. Controls: WASD + Space. Arrows + CTRL"
 run/main_scene="res://scenes/menus/Start.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+GameVariables="*res://singletons/GameVariables.gd"
 
 [display]
 

@@ -46,10 +46,10 @@ __meta__ = {
 }
 
 [node name="OnlineButton" type="Button" parent="StartPanel"]
-margin_left = 65.4863
-margin_top = 64.7833
-margin_right = 157.486
-margin_bottom = 84.7833
+margin_left = 65.0319
+margin_top = 77.5804
+margin_right = 157.032
+margin_bottom = 97.5804
 size_flags_horizontal = 2
 size_flags_vertical = 2
 text = "Online Play"
@@ -58,11 +58,10 @@ __meta__ = {
 }
 
 [node name="LocalButton" type="Button" parent="StartPanel"]
-visible = false
-margin_left = 130.0
-margin_top = 60.0
-margin_right = 210.0
-margin_bottom = 80.0
+margin_left = 65.0
+margin_top = 48.0
+margin_right = 158.0
+margin_bottom = 68.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 text = "Local Play"

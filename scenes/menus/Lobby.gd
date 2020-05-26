@@ -3,15 +3,42 @@ extends Control
 const DEFAULT_PORT = 8910 # An arbitrary number.
 
 onready var address = $Address
+
 onready var username = $Username
+onready var username_label = $UsernameLabel
+onready var username2 = $Username2
+onready var username_label2 = $UsernameLabel2
+
 onready var host_button = $HostButton
 onready var join_button = $JoinButton
+onready var start_button = $StartButton
+
 onready var status_ok = $StatusOk
 onready var status_fail = $StatusFail
 
-const LEVEL = preload("res://scenes/Online Level.tscn")
+const LEVEL = preload("res://scenes/Level.tscn")
 
 func _ready():
+	if GameVariables.local_play:
+		# Show start button for local play
+		start_button.visible = true
+		
+		# Hide host and join buttons for online play
+		host_button.visible = false
+		join_button.visible = false
+	else:
+		# Hide start button for local play
+		start_button.visible = false
+		
+		# Show host and join buttons for online play
+		host_button.visible = true
+		join_button.visible = true
+		
+		# Change the naming fields
+		username_label.text = "Username"
+		username2.visible = false
+		username_label2.visible = false
+		
 	# Connect all the callbacks related to networking.
 	get_tree().connect("network_peer_connected", self, "_player_connected")
 	get_tree().connect("network_peer_disconnected", self, "_player_disconnected")
@@ -82,7 +109,6 @@ func _set_status(text, isok):
 		status_ok.set_text("")
 		status_fail.set_text(text)
 
-
 func _on_host_pressed():
 	var host = NetworkedMultiplayerENet.new()
 	host.set_compression_mode(NetworkedMultiplayerENet.COMPRESS_RANGE_CODER)
@@ -95,7 +121,7 @@ func _on_host_pressed():
 	get_tree().set_network_peer(host)
 	host_button.set_disabled(true)
 	join_button.set_disabled(true)
-	_set_status("Waiting for player...", true)
+	_set_status("Waiting for other player...", true)
 
 
 func _on_join_pressed():
@@ -121,3 +147,27 @@ func _load_level():
 	level.set_self_player_name(username.text)
 
 	get_tree().get_root().add_child(level)
+
+
+func _on_StartButton_pressed():
+	var host = NetworkedMultiplayerENet.new()
+	host.set_compression_mode(NetworkedMultiplayerENet.COMPRESS_RANGE_CODER)
+	var err = host.create_server(DEFAULT_PORT, 1) # Maximum of 1 peer, since it's a 2-player game.
+	if err != OK:
+		# Is another server running?
+		_set_status("Can't host, address in use.",false)
+		return
+	
+	get_tree().set_network_peer(host)
+	
+	var level = LEVEL.instance()
+	# Connect deferred so we can safely erase it from the callback.
+	level.connect("game_finished", self, "_end_game", [], CONNECT_DEFERRED)
+	level.connect("game_reset", self, "_reset_game", [], CONNECT_DEFERRED)
+	
+	get_tree().get_root().add_child(level)
+	
+	level.set_player_one_name(username.text)
+	level.set_player_two_name(username2.text)
+
+	hide()
