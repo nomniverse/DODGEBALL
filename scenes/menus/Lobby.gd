@@ -9,6 +9,8 @@ onready var username_label = $UsernameLabel
 onready var username2 = $Username2
 onready var username_label2 = $UsernameLabel2
 
+onready var player_scores = [0, 0]
+
 onready var host_button = $HostButton
 onready var join_button = $JoinButton
 onready var start_button = $StartButton
@@ -99,6 +101,12 @@ func _reset_game(with_error = ""):
 		get_node("/root/World").free()
 		
 	_load_level()
+	
+func _update_score(point_player):
+	if point_player == 1:
+		player_scores[0] = player_scores[0] + 1
+	else:
+		player_scores[1] = player_scores[1] + 1
 
 func _set_status(text, isok):
 	# Simple way to show status.
@@ -143,10 +151,13 @@ func _load_level():
 	# Connect deferred so we can safely erase it from the callback.
 	level.connect("game_finished", self, "_end_game", [], CONNECT_DEFERRED)
 	level.connect("game_reset", self, "_reset_game", [], CONNECT_DEFERRED)
+	level.connect("update_score", self, "_update_score", [], CONNECT_DEFERRED)
 	
 	level.set_self_player_name(username.text)
-
+	
 	get_tree().get_root().add_child(level)
+	
+	level.set_scores(player_scores)
 
 
 func _on_StartButton_pressed():
@@ -164,10 +175,13 @@ func _on_StartButton_pressed():
 	# Connect deferred so we can safely erase it from the callback.
 	level.connect("game_finished", self, "_end_game", [], CONNECT_DEFERRED)
 	level.connect("game_reset", self, "_reset_game", [], CONNECT_DEFERRED)
+	level.connect("update_score", self, "_update_score", [], CONNECT_DEFERRED)
 	
 	get_tree().get_root().add_child(level)
 	
 	level.set_player_one_name(username.text)
 	level.set_player_two_name(username2.text)
+	
+	level.set_scores(player_scores)
 
 	hide()

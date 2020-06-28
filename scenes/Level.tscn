@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scenes/tiles.tres" type="TileSet" id=1]
 [ext_resource path="res://objects/player/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://objects/portal/Portal.tscn" type="PackedScene" id=3]
 [ext_resource path="res://objects/ball/Ball.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scenes/Level.gd" type="Script" id=5]
+[ext_resource path="res://scenes/menus/Scoreboard.tscn" type="PackedScene" id=6]
 
 [node name="World" type="Node2D"]
 script = ExtResource( 5 )
@@ -67,3 +68,9 @@ position = Vector2( 1529.71, 1002.72 )
 
 [node name="Ball6" parent="." instance=ExtResource( 4 )]
 position = Vector2( 362.946, 1008.87 )
+
+[node name="Scoreboard" parent="." instance=ExtResource( 6 )]
+margin_left = 14.9385
+margin_top = 845.747
+margin_right = 14.9385
+margin_bottom = 845.747

@@ -2,9 +2,12 @@ extends Node2D
 
 signal game_finished()
 signal game_reset()
+signal update_score()
 
 onready var player1 = $Player1
 onready var player2 = $Player2
+
+onready var scoreboard = $Scoreboard
 
 var player_name = "Player"
 
@@ -34,7 +37,13 @@ sync func set_player_one_name(player_one_name):
 	
 sync func set_player_two_name(player_two_name):
 	player2.set_player_name(player_two_name)
-
+	
+func set_scores(player_scores):
+	scoreboard.set_scores(player_scores)
+	
+sync func score(point_player):
+	emit_signal("update_score", point_player)
+	
 sync func reset_map():
 	emit_signal("game_reset")
 

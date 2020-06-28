@@ -33,13 +33,19 @@ _global_script_classes=[ {
 "class": "Portal",
 "language": "GDScript",
 "path": "res://objects/portal/Portal.gd"
+}, {
+"base": "Node",
+"class": "Scoreboard",
+"language": "GDScript",
+"path": "res://scenes/menus/Scoreboard.gd"
 } ]
 _global_script_class_icons={
 "Ball": "",
 "BaseBall": "",
 "BasePlayer": "",
 "Player": "",
-"Portal": ""
+"Portal": "",
+"Scoreboard": ""
 }
 
 [application]
