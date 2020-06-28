@@ -74,6 +74,6 @@ func _on_Hitbox_body_entered(body):
 					pass
 			elif ownership != body.get_player_id():
 				if bounce_count < DEAD_BALL_COUNT:
-					print("Tag! Point for Player %d" % ownership)
+					get_parent().rpc("score", ownership)
 					
 					body.tag()
