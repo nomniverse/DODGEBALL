@@ -9,43 +9,20 @@ onready var player2 = $Player2
 
 onready var scoreboard = $Scoreboard
 
-var player_name = "Player"
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	# By default, all nodes in server inherit from master,
-	# while all nodes in clients inherit from puppet.
-	# set_network_master is tree-recursive by default.
-	if get_tree().is_network_server():
-		rpc("set_player_one_name", player_name)
-	else:
-		rpc("set_player_two_name", player_name)
-	
-#	if get_tree().is_network_server():
-#		# For the server, give control of player 2 to the other peer. 
-#		player2.set_network_master(get_tree().get_network_connected_peers()[0])
-#	else:
-#		# For the client, give control of player 2 to itself.
-#		player2.set_network_master(get_tree().get_network_unique_id())
-#	print("unique id: ", get_tree().get_network_unique_id())
-
-func set_self_player_name(new_player_name):
-	player_name = new_player_name
-
-sync func set_player_one_name(player_one_name):
-	player1.set_player_name(player_one_name)
-	
-sync func set_player_two_name(player_two_name):
-	player2.set_player_name(player_two_name)
+	set_scores(GameVariables.player_scores)
 	
 func set_scores(player_scores):
 	scoreboard.set_scores(player_scores)
 	
 sync func score(point_player):
-	emit_signal("update_score", point_player)
-	
-sync func reset_map():
-	emit_signal("game_reset")
+	GameVariables.player_scores[point_player - 1] = GameVariables.player_scores[point_player - 1] + 1
 
 func _on_exit_game_pressed():
-	emit_signal("game_finished")
+	get_tree().set_network_peer(null) # Remove peer.
+	var _error = get_tree().change_scene("res://scenes/menus/Start.tscn")
+
+### Game State Functions
+sync func reset_map():
+	get_tree().reload_current_scene()

@@ -58,6 +58,7 @@ config/icon="res://icon.png"
 [autoload]
 
 GameVariables="*res://singletons/GameVariables.gd"
+Network="*res://singletons/Network.gd"
 
 [display]
 

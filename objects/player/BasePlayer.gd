@@ -12,7 +12,6 @@ const BALL_VELOCITY  = 1000
 const MAX_BALLS      = 2
 
 # == Member Variables ==
-var player_name = "Player"
 var velocity = Vector2()
 var facing_right = false
 var is_jumping = false
@@ -42,8 +41,10 @@ var ball_scene = preload("res://objects/ball/Ball.tscn")
 func _ready():
 	pass # Replace with function body.
 	
-sync func set_player_name(new_player_name):
-	player_name = new_player_name
+sync func reload_player_name():
+	set_player_name(name)
+	
+sync func set_player_name(player_name):
 	playerUsername.text = player_name
 	
 sync func _flip():

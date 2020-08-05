@@ -34,11 +34,15 @@ master var master_is_attacking = false
 master var master_is_jumping = false
 master var master_using_ability = false
 
+# Way to identify class
+func is_class(type): return type == "Player" or .is_class(type)
+func    get_class(): return "Player"
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	_last_position = position
 	
-#	set_player_name("Player")
+	set_player_name(GameVariables.usernames[player_id - 1])
 
 func _physics_process(delta):
 	var move_dir = 0
@@ -196,10 +200,6 @@ func _physics_process(delta):
 			_last_using_ability = using_ability
 
 		position = puppet_position
-
-sync func set_player_name(new_player_name):
-	player_name = new_player_name
-	playerUsername.text = player_name
 	
 sync func use_ability():
 	call(ability, player_id)
@@ -222,10 +222,6 @@ func tag():
 	
 func get_player_id():
 	return player_id
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
 
 func _on_ThrowTimer_timeout():
 	can_shoot = true
