@@ -30,7 +30,8 @@ func _physics_process(delta):
 			_last_position = position
 
 		if collision:
-			if collision.collider.get_name().begins_with("Player"):
+			#if collision.collider.get_name().begins_with("Player"):
+			if collision.collider.is_class("Player"):
 				velocity = velocity.bounce(collision.normal) + collision.collider.get_velocity()
 			elif collision.collider.get_name().begins_with("Ball"):
 				var old_velocity = velocity
@@ -65,7 +66,8 @@ sync func remove_ball():
 
 func _on_Hitbox_body_entered(body):
 	if is_network_master():
-		if body.get_name().begins_with("Player"):
+		#if body.get_name().begins_with("Player"):
+		if body.is_class("Player"):
 			if ownership == Ownership.UNOWNED:
 				if body.can_pick_up_ball():
 					rpc("remove_ball")

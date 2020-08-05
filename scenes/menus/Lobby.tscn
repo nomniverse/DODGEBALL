@@ -141,6 +141,17 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="StartOnlineButton" type="Button" parent="LobbyPanel"]
+visible = false
+margin_left = 20.7783
+margin_top = 178.751
+margin_right = 99.7783
+margin_bottom = 198.751
+text = "Start"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="StatusOk" type="Label" parent="LobbyPanel"]
 margin_left = 176.88
 margin_top = 151.08
@@ -169,3 +180,4 @@ __meta__ = {
 [connection signal="pressed" from="LobbyPanel/StartButton" to="LobbyPanel" method="_on_StartButton_pressed"]
 [connection signal="pressed" from="LobbyPanel/HostButton" to="LobbyPanel" method="_on_host_pressed"]
 [connection signal="pressed" from="LobbyPanel/JoinButton" to="LobbyPanel" method="_on_join_pressed"]
+[connection signal="pressed" from="LobbyPanel/StartOnlineButton" to="LobbyPanel" method="_on_StartOnlineButton_pressed"]
