@@ -1,6 +1,7 @@
 extends Node
 
 signal changed_lobby_status(status, not_error)
+signal can_start()
 
 const DEFAULT_PORT = 8910 # An arbitrary number.
 
@@ -13,22 +14,21 @@ var self_data = { username = '', ability = ''} # Holds data temporarily
 func _ready():
 	### Connect all the callbacks related to networking.
 	# Server callbacks
-	get_tree().connect("network_peer_connected", self, "_player_connected")
-	get_tree().connect("network_peer_disconnected", self, "_player_disconnected")
+	var _network_peer_connected_error = get_tree().connect("network_peer_connected", self, "_player_connected")
+	var _network_peer_disconnected_error = get_tree().connect("network_peer_disconnected", self, "_player_disconnected")
 	
 	# Client callbacks
-	get_tree().connect("connected_to_server", self, "_connected_ok")
-	get_tree().connect("connection_failed", self, "_connected_fail")
-	get_tree().connect("server_disconnected", self, "_server_disconnected")
+	var _connected_to_server_error = get_tree().connect("connected_to_server", self, "_connected_ok")
+	var _connection_failed_error = get_tree().connect("connection_failed", self, "_connected_fail")
+	var _server_disconnected_error = get_tree().connect("server_disconnected", self, "_server_disconnected")
 
 #### Network callbacks from SceneTree ####
 func _player_connected(_id):
-	var local_player_id = get_tree().get_network_unique_id()
-	
 	# Get info from the server
 	if get_tree().is_network_server():
 		rpc_id(_id, 'send_player_info', 1, self_data)
 		emit_signal('changed_lobby_status', "Client connected!", true)
+		emit_signal('can_start')
 	else:
 		rpc_id(_id, 'send_player_info', 2, self_data)
 		emit_signal('changed_lobby_status', "Server connected!", true)
@@ -58,13 +58,14 @@ func _server_disconnected():
 
 #### Class Functions
 # Creates a host server locally
-func create_server(playername, port=DEFAULT_PORT):
+func create_server(playername, ability, port=DEFAULT_PORT):
 	self_data.username = playername
-	GameVariables.usernames[0] = self_data.username
+	self_data.ability = ability
+	GameVariables.players[0] = self_data
 	
 	var host = NetworkedMultiplayerENet.new()
 	host.set_compression_mode(NetworkedMultiplayerENet.COMPRESS_RANGE_CODER)
-	var err = host.create_server(Network.DEFAULT_PORT, 1) # Maximum of 1 peer, since it's a 2-player game.
+	var err = host.create_server(port, 1) # Maximum of 1 peer, since it's a 2-player game.
 	
 	if err != OK:
 		# Is another server running?
@@ -75,19 +76,20 @@ func create_server(playername, port=DEFAULT_PORT):
 	return err
 	
 # Connects to a host server at a specific address
-func connect_to_server(playername, address, port=DEFAULT_PORT):
+func connect_to_server(playername, ability, address, port=DEFAULT_PORT):
 	self_data.username = playername
-	GameVariables.usernames[1] = self_data.username
+	self_data.ability = ability
+	GameVariables.players[1] = self_data
 	
 	var host = NetworkedMultiplayerENet.new()
 	host.set_compression_mode(NetworkedMultiplayerENet.COMPRESS_RANGE_CODER)
-	host.create_client(address, Network.DEFAULT_PORT)
+	host.create_client(address, port)
 	get_tree().set_network_peer(host)
 
-func start_offline_server():
+func start_offline_server(port=DEFAULT_PORT):
 	var host = NetworkedMultiplayerENet.new()
 	host.set_compression_mode(NetworkedMultiplayerENet.COMPRESS_RANGE_CODER)
-	var err = host.create_server(Network.DEFAULT_PORT, 1) # Maximum of 1 peer, since it's a 2-player game.
+	var err = host.create_server(port, 1) # Maximum of 1 peer, since it's a 2-player game.
 	
 	if err != OK:
 		return err
@@ -113,4 +115,4 @@ sync func go_to_level():
 
 ### === Username Handling ===
 remote func send_player_info(id, info):
-	GameVariables.usernames[id - 1] = info.username
+	GameVariables.players[id - 1] = info

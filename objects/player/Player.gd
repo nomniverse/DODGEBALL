@@ -42,38 +42,31 @@ func    get_class(): return "Player"
 func _ready():
 	_last_position = position
 	
-	set_player_name(GameVariables.usernames[player_id - 1])
+	set_player_name(GameVariables.players[player_id - 1]['username'])
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	var move_dir = 0
 	
-	if GameVariables.local_play:
-		master_move_dir = 0
+	if GameVariables.local_play: master_move_dir = 0
 	
 	if not GameVariables.local_play:
-		if Input.is_action_pressed("player_one_move_right"):
-			move_dir += 1
-		if Input.is_action_pressed("player_one_move_left"):
-			move_dir -= 1
+		if Input.is_action_pressed("player_one_move_right"): move_dir += 1
+		if Input.is_action_pressed("player_one_move_left"): move_dir -= 1
 		
 		is_jumping = Input.is_action_just_pressed("player_one_jump")
 		is_attacking = Input.is_action_pressed("player_one_tag")
 		using_ability = Input.is_action_just_pressed("player_one_ability")
 	else:
 		if player_id == 1:
-			if Input.is_action_pressed("player_one_move_right"):
-				move_dir += 1
-			if Input.is_action_pressed("player_one_move_left"):
-				move_dir -= 1
+			if Input.is_action_pressed("player_one_move_right"): move_dir += 1
+			if Input.is_action_pressed("player_one_move_left"): move_dir -= 1
 			
 			is_jumping = Input.is_action_just_pressed("player_one_jump")
 			is_attacking = Input.is_action_pressed("player_one_tag")
 			using_ability = Input.is_action_just_pressed("player_one_ability")
 		else:
-			if Input.is_action_pressed("player_two_move_right"):
-				master_move_dir += 1
-			if Input.is_action_pressed("player_two_move_left"):
-				master_move_dir -= 1
+			if Input.is_action_pressed("player_two_move_right"): master_move_dir += 1
+			if Input.is_action_pressed("player_two_move_left"): master_move_dir -= 1
 			
 			master_is_jumping = Input.is_action_just_pressed("player_two_jump")
 			master_is_attacking = Input.is_action_pressed("player_two_tag")
@@ -90,24 +83,18 @@ func _physics_process(delta):
 		
 		if player_id == 1:
 			if on_floor:
-				if is_jumping:
-					velocity.y = -JUMP_FORCE
+				if is_jumping: velocity.y = -JUMP_FORCE
 			
-				if velocity.y >= 5:
-					velocity.y = 5
+				if velocity.y >= 5: velocity.y = 5
 		else:
 			if on_floor:
-				if master_is_jumping:
-					velocity.y = -JUMP_FORCE
+				if master_is_jumping: velocity.y = -JUMP_FORCE
 			
-				if velocity.y >= 5:
-					velocity.y = 5
+				if velocity.y >= 5: velocity.y = 5
 			
-		if on_ceiling:
-			velocity.y = 1
+		if on_ceiling: velocity.y = 1
 			
-		if velocity.y > MAX_FALL_SPEED:
-			velocity.y = MAX_FALL_SPEED
+		if velocity.y > MAX_FALL_SPEED: velocity.y = MAX_FALL_SPEED
 				
 		if abs(_last_position.x - position.x) > LAST_POSITION_TOLERANCE or abs(_last_position.y - position.y) > LAST_POSITION_TOLERANCE:
 			rset_unreliable("puppet_position", position)
@@ -121,8 +108,7 @@ func _physics_process(delta):
 			for i in get_slide_count():
 				var collision = get_slide_collision(i)
 				
-				if collision.collider is Ball:
-					collision.collider.set_velocity(collision.collider.get_velocity() + velocity)
+				if collision.collider is Ball: collision.collider.set_velocity(collision.collider.get_velocity() + velocity)
 			
 		if player_id == 1:
 			if is_attacking and can_shoot and ball_count > 0:
@@ -132,14 +118,9 @@ func _physics_process(delta):
 				can_shoot = false
 				throwTimer.start()
 				
-			if using_ability and ability_ready:
-				rpc("use_ability")
-				ability_ready = false
-				can_shoot = false
-				abilityDuration.start()
+			if using_ability: get_node("AbilityManager").rpc("use_ability")
 			
-			if (facing_right and move_dir < 0) or (!facing_right and move_dir > 0):
-				rpc("_flip")
+			if (facing_right and move_dir < 0) or (!facing_right and move_dir > 0): rpc("_flip")
 				
 			if is_on_floor():
 				if move_dir == 0:
@@ -156,14 +137,9 @@ func _physics_process(delta):
 				can_shoot = false
 				throwTimer.start()
 				
-			if master_using_ability and ability_ready:
-				rpc("use_ability")
-				ability_ready = false
-				can_shoot = false
-				abilityDuration.start()
+			if master_using_ability: get_node("AbilityManager").rpc("use_ability")
 			
-			if (facing_right and master_move_dir < 0) or (!facing_right and master_move_dir > 0):
-				rpc("_flip")
+			if (facing_right and master_move_dir < 0) or (!facing_right and master_move_dir > 0): rpc("_flip")
 				
 			if is_on_floor():
 				if master_move_dir == 0:
@@ -200,12 +176,6 @@ func _physics_process(delta):
 			_last_using_ability = using_ability
 
 		position = puppet_position
-	
-sync func use_ability():
-	call(ability, player_id)
-	
-sync func end_ability():
-	call(ability, player_id)
 
 func can_pick_up_ball():
 	return ball_count + 1 <= MAX_BALLS
@@ -225,12 +195,3 @@ func get_player_id():
 
 func _on_ThrowTimer_timeout():
 	can_shoot = true
-
-func _on_AbilityDuration_timeout():
-	rpc("end_ability")
-	can_shoot = true
-	abilityCooldown.start()
-
-func _on_AbilityCooldown_timeout():
-	ability_ready = true
-	

@@ -18,10 +18,10 @@ __meta__ = {
 }
 
 [node name="StartPanel" type="Panel" parent="."]
-margin_left = -161.797
-margin_top = -33.85
-margin_right = 58.2027
-margin_bottom = 76.15
+margin_left = -642.0
+margin_top = -345.0
+margin_right = -257.0
+margin_bottom = -128.0
 rect_scale = Vector2( 5, 5 )
 size_flags_horizontal = 2
 size_flags_vertical = 2
@@ -31,10 +31,10 @@ __meta__ = {
 }
 
 [node name="AddressLabel" type="Label" parent="StartPanel"]
-margin_left = 32.0
-margin_top = 5.5
-margin_right = 112.0
-margin_bottom = 19.5
+margin_left = 117.43
+margin_top = 57.7576
+margin_right = 197.43
+margin_bottom = 71.7576
 rect_scale = Vector2( 2, 2 )
 size_flags_horizontal = 2
 size_flags_vertical = 0
@@ -46,10 +46,10 @@ __meta__ = {
 }
 
 [node name="OnlineButton" type="Button" parent="StartPanel"]
-margin_left = 65.0319
-margin_top = 77.5804
-margin_right = 157.032
-margin_bottom = 97.5804
+margin_left = 152.782
+margin_top = 151.339
+margin_right = 244.782
+margin_bottom = 171.339
 size_flags_horizontal = 2
 size_flags_vertical = 2
 text = "Online Play"
@@ -58,10 +58,10 @@ __meta__ = {
 }
 
 [node name="LocalButton" type="Button" parent="StartPanel"]
-margin_left = 65.0
-margin_top = 48.0
-margin_right = 158.0
-margin_bottom = 68.0
+margin_left = 152.295
+margin_top = 124.724
+margin_right = 245.295
+margin_bottom = 144.724
 size_flags_horizontal = 2
 size_flags_vertical = 2
 text = "Local Play"
@@ -93,10 +93,11 @@ __meta__ = {
 }
 
 [node name="Author" type="RichTextLabel" parent="."]
-margin_left = -158.905
-margin_top = 490.66
-margin_right = 328.095
-margin_bottom = 511.66
+margin_left = -628.133
+margin_top = 663.225
+margin_right = -130.133
+margin_bottom = 685.225
+rect_scale = Vector2( 3, 3 )
 text = "By Hotchmoney, omn0mn0m, PsiberPiRat, shields2314, thatguyvt, Vanacan"
 __meta__ = {
 "_edit_use_anchors_": false
