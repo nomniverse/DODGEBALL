@@ -18,10 +18,10 @@ __meta__ = {
 }
 
 [node name="LobbyPanel" type="Panel" parent="."]
-margin_left = -610.0
-margin_top = -314.0
-margin_right = -240.0
-margin_bottom = -110.0
+margin_left = -641.0
+margin_top = -346.0
+margin_right = -256.0
+margin_bottom = -128.0
 rect_scale = Vector2( 5, 5 )
 size_flags_horizontal = 2
 size_flags_vertical = 2
@@ -43,10 +43,10 @@ __meta__ = {
 }
 
 [node name="Address" type="LineEdit" parent="LobbyPanel"]
-margin_left = 70.4206
-margin_top = 5.08974
-margin_right = 270.421
-margin_bottom = 29.0897
+margin_left = 70.0
+margin_top = 5.0
+margin_right = 377.0
+margin_bottom = 29.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 text = "127.0.0.1"
@@ -55,10 +55,10 @@ __meta__ = {
 }
 
 [node name="UsernameLabel" type="Label" parent="LobbyPanel"]
-margin_left = 8.22054
-margin_top = 129.476
-margin_right = 74.2205
-margin_bottom = 143.476
+margin_left = 11.3407
+margin_top = 71.3573
+margin_right = 104.341
+margin_bottom = 85.3573
 size_flags_horizontal = 2
 size_flags_vertical = 0
 text = "Player 1 Name"
@@ -67,10 +67,10 @@ __meta__ = {
 }
 
 [node name="Username" type="LineEdit" parent="LobbyPanel"]
-margin_left = 7.0
-margin_top = 146.0
-margin_right = 171.0
-margin_bottom = 170.0
+margin_left = 11.5389
+margin_top = 87.1906
+margin_right = 143.539
+margin_bottom = 111.191
 size_flags_horizontal = 2
 size_flags_vertical = 2
 text = "Player"
@@ -78,11 +78,33 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="AbilitySelectLabel" type="Label" parent="LobbyPanel"]
+margin_left = 12.9307
+margin_top = 117.468
+margin_right = 105.931
+margin_bottom = 131.468
+size_flags_horizontal = 2
+size_flags_vertical = 0
+text = "Player 1 Ability"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AbilitySelect" type="OptionButton" parent="LobbyPanel"]
+margin_left = 12.88
+margin_top = 139.2
+margin_right = 144.88
+margin_bottom = 159.2
+text = "Player 1 Ability"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="UsernameLabel2" type="Label" parent="LobbyPanel"]
-margin_left = 196.373
-margin_top = 129.476
-margin_right = 262.373
-margin_bottom = 143.476
+margin_left = 192.969
+margin_top = 72.7367
+margin_right = 285.969
+margin_bottom = 86.7367
 size_flags_horizontal = 2
 size_flags_vertical = 0
 text = "Player 2 Name"
@@ -91,10 +113,10 @@ __meta__ = {
 }
 
 [node name="Username2" type="LineEdit" parent="LobbyPanel"]
-margin_left = 194.09
-margin_top = 146.0
-margin_right = 358.09
-margin_bottom = 170.0
+margin_left = 193.429
+margin_top = 88.5483
+margin_right = 325.429
+margin_bottom = 112.548
 size_flags_horizontal = 2
 size_flags_vertical = 2
 text = "Player"
@@ -102,12 +124,34 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="AbilitySelectLabel2" type="Label" parent="LobbyPanel"]
+margin_left = 194.559
+margin_top = 118.847
+margin_right = 287.559
+margin_bottom = 132.847
+size_flags_horizontal = 2
+size_flags_vertical = 0
+text = "Player 2 Ability"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AbilitySelect2" type="OptionButton" parent="LobbyPanel"]
+margin_left = 195.202
+margin_top = 139.2
+margin_right = 327.202
+margin_bottom = 159.2
+text = "Player 2 Ability"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="StartButton" type="Button" parent="LobbyPanel"]
 visible = false
-margin_left = 154.372
-margin_top = 179.62
-margin_right = 234.372
-margin_bottom = 199.62
+margin_left = 145.919
+margin_top = 35.59
+margin_right = 250.919
+margin_bottom = 55.59
 size_flags_horizontal = 2
 size_flags_vertical = 2
 text = "Start"
@@ -117,10 +161,10 @@ __meta__ = {
 
 [node name="HostButton" type="Button" parent="LobbyPanel"]
 visible = false
-margin_left = 109.322
-margin_top = 178.56
-margin_right = 189.322
-margin_bottom = 198.56
+margin_left = 11.88
+margin_top = 34.8194
+margin_right = 113.88
+margin_bottom = 54.8194
 size_flags_horizontal = 2
 size_flags_vertical = 2
 text = "Host"
@@ -130,10 +174,10 @@ __meta__ = {
 
 [node name="JoinButton" type="Button" parent="LobbyPanel"]
 visible = false
-margin_left = 196.681
-margin_top = 178.59
-margin_right = 276.681
-margin_bottom = 198.59
+margin_left = 277.562
+margin_top = 35.4094
+margin_right = 375.562
+margin_bottom = 55.4094
 size_flags_horizontal = 2
 size_flags_vertical = 2
 text = "Join"
@@ -143,20 +187,20 @@ __meta__ = {
 
 [node name="StartOnlineButton" type="Button" parent="LobbyPanel"]
 visible = false
-margin_left = 20.7783
-margin_top = 178.751
-margin_right = 99.7783
-margin_bottom = 198.751
+margin_left = 146.969
+margin_top = 35.5799
+margin_right = 252.969
+margin_bottom = 55.5799
 text = "Start"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="StatusOk" type="Label" parent="LobbyPanel"]
-margin_left = 176.88
-margin_top = 151.08
-margin_right = 364.88
-margin_bottom = 165.08
+margin_left = 7.63039
+margin_top = 197.413
+margin_right = 9.63039
+margin_bottom = 211.413
 size_flags_horizontal = 2
 size_flags_vertical = 0
 custom_colors/font_color = Color( 0, 1, 0.015625, 1 )
@@ -166,10 +210,10 @@ __meta__ = {
 }
 
 [node name="StatusFail" type="Label" parent="LobbyPanel"]
-margin_left = 179.88
-margin_top = 149.14
-margin_right = 360.88
-margin_bottom = 163.14
+margin_left = 9.52069
+margin_top = 198.226
+margin_right = 10.5207
+margin_bottom = 212.226
 size_flags_horizontal = 2
 size_flags_vertical = 0
 custom_colors/font_color = Color( 1, 0, 0, 1 )

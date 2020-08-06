@@ -19,8 +19,7 @@ func _physics_process(delta):
 		if not is_on_floor():
 			velocity.y += GRAVITY * delta
 
-			if velocity.y > GRAVITY:
-				velocity.y = GRAVITY
+			if velocity.y > GRAVITY: velocity.y = GRAVITY
 
 		var collision = move_and_collide(velocity * delta)
 
@@ -43,12 +42,10 @@ func _physics_process(delta):
 
 			velocity *= Vector2(DAMPENING, DAMPENING)
 			
-			if abs(velocity.y) < MIN_VELOCITY:
-				velocity.y = 0
+			if abs(velocity.y) < MIN_VELOCITY: velocity.y = 0
 				
-			if abs(velocity.x) < MIN_VELOCITY:
-				velocity.x = 0
-
+			if abs(velocity.x) < MIN_VELOCITY: velocity.x = 0
+			
 			bounce_count += 1
 
 			if bounce_count >= DEAD_BALL_COUNT:
@@ -56,10 +53,6 @@ func _physics_process(delta):
 				bounce_count = 0
 	else:
 		position = puppet_position
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
 
 sync func remove_ball():
 	self.queue_free()

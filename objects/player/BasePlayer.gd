@@ -16,23 +16,16 @@ var velocity = Vector2()
 var facing_right = false
 var is_jumping = false
 var is_attacking = false
+var using_ability = false
 
 var can_shoot = true
 var ball_count = 0
-
-# Ability Variables
-var ability = "invisible"
-
-var using_ability = false
-var ability_ready = true
 
 # Node References
 onready var anim_player = $AnimationPlayer
 onready var sprite = $Sprite
 onready var throwTimer = $ThrowTimer
 onready var ballPosition = $BallPosition2D
-onready var abilityDuration = $AbilityDuration
-onready var abilityCooldown = $AbilityCooldown
 onready var playerUsername = $PlayerUsername
 
 var ball_scene = preload("res://objects/ball/Ball.tscn")
@@ -73,32 +66,3 @@ sync func _play_anim(anim_name):
 	
 func get_velocity():
 	return velocity
-
-func invisible(player_id):
-	if not GameVariables.local_play:
-		if get_tree().is_network_server():
-			if player_id == 1:
-				if sprite.modulate == Color(1, 1, 1):
-					sprite.modulate = Color(0, 0, 1)
-				else:
-					sprite.modulate = Color(1, 1, 1)
-			elif player_id == 2:
-				sprite.visible = !sprite.visible
-				playerUsername.visible = !playerUsername.visible
-		else:
-			if player_id == 1:
-				sprite.visible = !sprite.visible
-				playerUsername.visible = !playerUsername.visible
-			elif player_id == 2:
-				if sprite.modulate == Color(1, 1, 1):
-					sprite.modulate = Color(0, 0, 1)
-				else:
-					sprite.modulate = Color(1, 1, 1)
-	else:
-		sprite.visible = !sprite.visible
-		playerUsername.visible = !playerUsername.visible
-			
-	
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass

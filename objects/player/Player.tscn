@@ -1,9 +1,9 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://assets/art/character.png" type="Texture" id=1]
 [ext_resource path="res://objects/player/Player.gd" type="Script" id=2]
 [ext_resource path="res://assets/fonts/playername_font.tres" type="DynamicFont" id=3]
-
+[ext_resource path="res://objects/player/ability_manager/AbilityManager.tscn" type="PackedScene" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 10, 24 )
@@ -96,12 +96,5 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="AbilityDuration" type="Timer" parent="."]
-one_shot = true
-
-[node name="AbilityCooldown" type="Timer" parent="."]
-wait_time = 5.0
-one_shot = true
+[node name="AbilityManager" parent="." instance=ExtResource( 4 )]
 [connection signal="timeout" from="ThrowTimer" to="." method="_on_ThrowTimer_timeout"]
-[connection signal="timeout" from="AbilityDuration" to="." method="_on_AbilityDuration_timeout"]
-[connection signal="timeout" from="AbilityCooldown" to="." method="_on_AbilityCooldown_timeout"]

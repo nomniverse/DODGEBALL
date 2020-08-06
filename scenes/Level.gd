@@ -1,9 +1,5 @@
 extends Node2D
 
-signal game_finished()
-signal game_reset()
-signal update_score()
-
 onready var player1 = $Player1
 onready var player2 = $Player2
 
@@ -25,4 +21,4 @@ func _on_exit_game_pressed():
 
 ### Game State Functions
 sync func reset_map():
-	get_tree().reload_current_scene()
+	var _error = get_tree().reload_current_scene()
