@@ -8,4 +8,5 @@ var players = {}
 var abilities = [
 	"None",
 	"Invisibility",
+	"Rewind",
 ]

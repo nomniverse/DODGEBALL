@@ -17,6 +17,9 @@ var ability_ready = true
 func _ready():
 	player = get_parent()
 	ability = GameVariables.players[player.player_id - 1]['ability']
+	
+	if ability == 'Rewind':
+		durationTimer.wait_time = 2
 
 ### Signal Events
 func _on_DurationTimer_timeout():
@@ -33,16 +36,16 @@ sync func use_ability():
 		player.can_shoot = false
 		ability_ready = false
 		durationTimer.start()
-		call(ability, player.player_id)
+		call(ability, player.player_id, false)
 	
 func end_ability():
-	call(ability, player.player_id)
+	call(ability, player.player_id, true)
 
 ### Abilities (function names should be uppercase)
 func None(_player_id):
 	pass
 	
-func Invisibility(player_id):
+func Invisibility(player_id, _is_end):
 	if not GameVariables.local_play:
 		if get_tree().is_network_server():
 			if player_id == 1:
@@ -65,3 +68,11 @@ func Invisibility(player_id):
 	else:
 		player.sprite.visible = !player.sprite.visible
 		player.playerUsername.visible = !player.playerUsername.visible
+
+var rewind_position
+
+func Rewind(player_id, is_end):
+	if is_end:
+		player.position = rewind_position
+	else:
+		rewind_position = player.position
