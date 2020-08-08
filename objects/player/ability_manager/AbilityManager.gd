@@ -7,6 +7,8 @@ class_name AbilityManager
 onready var durationTimer = $DurationTimer
 onready var cooldownTimer = $CooldownTimer
 
+onready var blinkRayCast = $BlinkRayCast
+
 var player
 
 # Ability Variables
@@ -20,6 +22,10 @@ func _ready():
 	
 	if ability == 'Rewind':
 		durationTimer.wait_time = 2
+	if ability == 'Blink':
+		cooldownTimer.wait_time = 1.5
+		
+		blinkRayCast.add_exception(player)
 
 ### Signal Events
 func _on_DurationTimer_timeout():
@@ -34,8 +40,6 @@ func _on_CooldownTimer_timeout():
 sync func use_ability():
 	if ability_ready:
 		player.can_shoot = false
-		ability_ready = false
-		durationTimer.start()
 		call(ability, player.player_id, false)
 	
 func end_ability():
@@ -45,7 +49,7 @@ func end_ability():
 func None(_player_id):
 	pass
 	
-func Invisibility(player_id, _is_end):
+func Invisibility(player_id, is_end):
 	if not GameVariables.local_play:
 		if get_tree().is_network_server():
 			if player_id == 1:
@@ -68,11 +72,38 @@ func Invisibility(player_id, _is_end):
 	else:
 		player.sprite.visible = !player.sprite.visible
 		player.playerUsername.visible = !player.playerUsername.visible
+		
+	if not is_end:
+		ability_ready = false
+		durationTimer.start()
 
 var rewind_position
 
-func Rewind(player_id, is_end):
+func Rewind(_player_id, is_end):
 	if is_end:
 		player.position = rewind_position
 	else:
 		rewind_position = player.position
+		ability_ready = false
+		durationTimer.start()
+
+func Blink(_player_id, is_end):
+	if not is_end:
+		cooldownTimer.start()
+		ability_ready = false
+		
+		if player.facing_right:
+			blinkRayCast.rotation_degrees = 180
+		else:
+			blinkRayCast.rotation_degrees = 0
+		
+		blinkRayCast.enabled = true
+		
+		blinkRayCast.force_raycast_update()
+		
+		if blinkRayCast.is_colliding():
+			player.position = blinkRayCast.get_collision_point()
+		else:
+			player.position = player.position + blinkRayCast.cast_to.rotated(blinkRayCast.rotation)
+		
+		blinkRayCast.enabled = false

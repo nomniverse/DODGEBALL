@@ -9,4 +9,5 @@ var abilities = [
 	"None",
 	"Invisibility",
 	"Rewind",
+	"Blink",
 ]

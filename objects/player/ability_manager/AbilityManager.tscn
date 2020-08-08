@@ -11,5 +11,9 @@ one_shot = true
 [node name="CooldownTimer" type="Timer" parent="."]
 wait_time = 5.0
 one_shot = true
+
+[node name="BlinkRayCast" type="RayCast2D" parent="."]
+cast_to = Vector2( -300, 0 )
+collide_with_areas = true
 [connection signal="timeout" from="DurationTimer" to="." method="_on_DurationTimer_timeout"]
 [connection signal="timeout" from="CooldownTimer" to="." method="_on_CooldownTimer_timeout"]

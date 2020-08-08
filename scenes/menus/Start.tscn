@@ -31,11 +31,11 @@ __meta__ = {
 }
 
 [node name="AddressLabel" type="Label" parent="StartPanel"]
-margin_left = 117.43
-margin_top = 57.7576
-margin_right = 197.43
-margin_bottom = 71.7576
-rect_scale = Vector2( 2, 2 )
+margin_left = 34.923
+margin_top = 38.7175
+margin_right = 114.923
+margin_bottom = 52.7175
+rect_scale = Vector2( 4, 4 )
 size_flags_horizontal = 2
 size_flags_vertical = 0
 text = "DODGEBALL"
