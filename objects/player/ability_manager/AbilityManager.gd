@@ -23,15 +23,16 @@ func _ready():
 	if ability == 'Rewind':
 		durationTimer.wait_time = 2
 	if ability == 'Blink':
+		durationTimer.wait_time = 0.1
 		cooldownTimer.wait_time = 1.5
 		
 		blinkRayCast.add_exception(player)
 
 ### Signal Events
 func _on_DurationTimer_timeout():
-	end_ability()
 	player.can_shoot = true
 	cooldownTimer.start()
+	end_ability()
 
 func _on_CooldownTimer_timeout():
 	ability_ready = true
@@ -40,6 +41,8 @@ func _on_CooldownTimer_timeout():
 sync func use_ability():
 	if ability_ready:
 		player.can_shoot = false
+		ability_ready = false
+		durationTimer.start()
 		call(ability, player.player_id, false)
 	
 func end_ability():
@@ -72,10 +75,6 @@ func Invisibility(player_id, is_end):
 	else:
 		player.sprite.visible = !player.sprite.visible
 		player.playerUsername.visible = !player.playerUsername.visible
-		
-	if not is_end:
-		ability_ready = false
-		durationTimer.start()
 
 var rewind_position
 
@@ -84,14 +83,9 @@ func Rewind(_player_id, is_end):
 		player.position = rewind_position
 	else:
 		rewind_position = player.position
-		ability_ready = false
-		durationTimer.start()
 
 func Blink(_player_id, is_end):
 	if not is_end:
-		cooldownTimer.start()
-		ability_ready = false
-		
 		if player.facing_right:
 			blinkRayCast.rotation_degrees = 180
 		else:
